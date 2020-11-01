@@ -1,0 +1,20 @@
+.container {
+  padding-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  border-radius: 10px;
+  background: linear-gradient(110deg, rgba(254,107,117,1) -25%, rgba(255,154,101,1) 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-size: 40px;
+  letter-spacing: 2px;
+  outline: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+}

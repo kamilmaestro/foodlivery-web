@@ -1,0 +1,5 @@
+.background {
+    min-height: 100vh;
+    background: url('../images/home.jpg') center/cover no-repeat fixed;
+    margin-top: auto;
+}
