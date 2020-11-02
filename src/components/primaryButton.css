@@ -1,13 +1,6 @@
-.container {
-  padding-top: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .content {
   border-radius: 10px;
-  background: linear-gradient(110deg, rgba(254,107,117,1) -25%, rgba(255,154,101,1) 100%);
+  background-color: #c62828;
   color: white;
   border: none;
   padding: 15px 30px;
