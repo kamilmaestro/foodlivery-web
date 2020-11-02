@@ -21,5 +21,14 @@
 
 .image {
     width: auto;
-    height: 50vh;
+    height: 75vh;
+}
+
+.title_accent {
+    color: #c62828;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
 }

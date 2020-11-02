@@ -1,11 +1,12 @@
 import React from 'react';
-import { theme } from '../theme';
 import './primaryButton.css';
 
 export const PrimaryButton = ({text}) => {
   return (
-    <button className='content'>
-      {text}
-    </button>
+    <div style={{display: "flex", justifyContent: "center", margin: 30}}>
+      <button className='content'>
+        {text}
+      </button>
+    </div>
   );
 };
