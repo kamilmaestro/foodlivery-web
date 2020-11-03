@@ -1,28 +1,18 @@
 import React from 'react';
-import { PrimaryButton } from '../components/PrimaryButton';
 import './homePage.css';
 import circle from '../images/circle.png';
-import {Box, ThemeProvider, Typography} from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core'
 import {theme} from '../theme';
+import { PagePreview } from '../components/PagePreview/PagePreview';
+import { Header } from '../components/Header/Header';
 
-export const HomePage = ({}) => {
+export const HomePage = () => {
 	return (
 		<ThemeProvider theme={theme}>
+			<Header />
 			<div className='container'>
 				<div className='left'>
-					<div className='row'>
-						<Typography variant="h1" >
-							<Box letterSpacing={3} fontWeight="fontWeightBold" textAlign="center" >
-								Foo<span className='title_accent'>d</span>livery
-							</Box>
-						</Typography>
-						<Typography variant="h4" gutterBottom >
-							<Box letterSpacing={2} textAlign="center" >
-								Delicious food for every mood
-							</Box>
-						</Typography>
-						<PrimaryButton text='Głodny?' />
-					</div>
+					<PagePreview />
 				</div>
 				<div className='right'>
 					<img src={circle} alt='dish' className='image' />
