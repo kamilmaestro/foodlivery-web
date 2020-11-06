@@ -3,7 +3,7 @@ import {Box, Typography} from '@material-ui/core';
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton';
 import './pagePreview.css';
 
-export const PagePreview = () => {
+export const PagePreview = ({ onButtonClick }) => {
   return (
     <div className='row'>
       <Typography variant="h1" >
@@ -16,7 +16,7 @@ export const PagePreview = () => {
           Delicious food for every mood
         </Box>
       </Typography>
-      <PrimaryButton text='Głodny?' />
+      <PrimaryButton text='Głodny?' onClick={onButtonClick} />
     </div>
   );
 };
