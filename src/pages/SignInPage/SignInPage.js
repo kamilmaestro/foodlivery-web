@@ -7,6 +7,8 @@ import { SignIn } from '../../components/SignIn/SignIn';
 import SignUp from '../../components/SignIn/SignUp';
 import pizza from '../../images/pizza.jpg';
 import { Header } from '../../components/Header/Header';
+import { useHistory } from "react-router-dom";
+import { MAIN_VIEW_URL } from '../../utils/urlProvider';
 
 const useStyles = makeStyles(() => ({
   image: {
@@ -20,10 +22,19 @@ const useStyles = makeStyles(() => ({
 export const SignInPage = () => {
 
   const classes = useStyles();
+  const history = useHistory();
   const [hasAccount, setHasAccount] = useState(true);
 
   const onClickButton = () => {
     setHasAccount(!hasAccount);
+  }
+
+  const onSignInSubmit = () => {
+    history.push(MAIN_VIEW_URL);
+  }
+
+  const onSignUpSubmit = () => {
+    onClickButton();
   }
 
   return (
@@ -34,8 +45,8 @@ export const SignInPage = () => {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         {
           hasAccount ?
-            <SignIn onClickButton={onClickButton} />
-          : <SignUp onClickButton={onClickButton} />
+            <SignIn onClickButton={onClickButton} onSubmit={onSignInSubmit} />
+          : <SignUp onClickButton={onClickButton} onSubmit={onSignUpSubmit} />
         }
       </Grid>
     </Grid>

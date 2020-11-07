@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignIn = ({ onClickButton }) => {
+export const SignIn = ({ onClickButton, onSubmit }) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +52,7 @@ export const SignIn = ({ onClickButton }) => {
           type="password"
           id="password"
         />
-        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
+        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={onSubmit} >
           Zatwierdź
         </Button>
         <Grid item>

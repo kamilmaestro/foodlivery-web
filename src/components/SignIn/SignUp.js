@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({ onClickButton }) {
+export default function SignUp({ onClickButton, onSubmit }) {
   const classes = useStyles();
 
   return (
@@ -56,7 +56,6 @@ export default function SignUp({ onClickButton }) {
           id="email"
           label="Adres email"
           type="email"
-          autoFocus
         />
         <TextField
           variant="outlined"
@@ -67,7 +66,7 @@ export default function SignUp({ onClickButton }) {
           type="password"
           id="password"
         />
-        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
+        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={onSubmit} >
           Stwórz konto
         </Button>
         <Grid item>
