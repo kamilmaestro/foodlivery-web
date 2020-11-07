@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SignIn } from '../../components/SignIn/SignIn';
 import SignUp from '../../components/SignIn/SignUp';
 import pizza from '../../images/pizza.jpg';
-import { Header } from '../../components/Header/Header';
+import { HomeHeader } from '../../components/HomeHeader/HomeHeader';
 import { useHistory } from "react-router-dom";
 import { MAIN_VIEW_URL } from '../../utils/urlProvider';
 
@@ -40,7 +40,7 @@ export const SignInPage = () => {
   return (
     <Grid container component="main" style={{height: '100vh'}} >
       <CssBaseline />
-      <Header color='white' />
+      <HomeHeader color='white' />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         {

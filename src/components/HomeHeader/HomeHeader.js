@@ -4,7 +4,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { useHistory } from "react-router-dom";
 import { HOME_PAGE_URL } from '../../utils/urlProvider';
 
-export const Header = ({ color, onAccountIconClick }) => {
+export const HomeHeader = ({ color, onAccountIconClick }) => {
 
   const history = useHistory();
   
