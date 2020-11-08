@@ -8,16 +8,19 @@ import {theme} from './theme';
 import { MainView } from "./pages/MainView/MainView";
 import { MyOrdersView } from "./components/MyOrdersView/MyOrdersView";
 import { WalletView } from "./components/WalletView/WalletView";
+import { SuppliersView } from "./components/SuppliersView/SuppliersView";
+import { HOME_PAGE_URL, MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, SIGN_IN_PAGE_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from './utils/urlProvider';
 
 function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Switch>
-          <Route exact path = '/' component = {HomePage} />
-          <Route exact path = '/signin' component = {SignInPage} />
-          <Route exact path = '/app/orders' render = { () => <MainView > <MyOrdersView /> </MainView> } />
-          <Route exact path = '/app/wallet' render = { () => <MainView > <WalletView /> </MainView> } />
+          <Route exact path = {HOME_PAGE_URL} component = {HomePage} />
+          <Route exact path = {SIGN_IN_PAGE_URL} component = {SignInPage} />
+          <Route exact path = {MY_ORDERS_VIEW_URL} render = { () => <MainView > <MyOrdersView /> </MainView> } />
+          <Route exact path = {SUPPLIERS_VIEW_URL} render = { () => <MainView > <SuppliersView /> </MainView> } />
+          <Route exact path = {WALLET_VIEW_URL} render = { () => <MainView > <WalletView /> </MainView> } />
         </Switch>
       </ThemeProvider>
     </div>
