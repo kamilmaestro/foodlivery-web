@@ -8,7 +8,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { DRAWER_WIDTH } from '../../utils/constants';
 import { DrawerItems } from './DrawerItems';
 
-export const MainViewDrawer = ({ handleDrawerClose, open }) => {
+export const MainViewDrawer = ({ items, handleDrawerClose, open }) => {
 
   const classes = useStyles();
 
@@ -24,7 +24,7 @@ export const MainViewDrawer = ({ handleDrawerClose, open }) => {
         </IconButton>
       </div>
       <Divider />
-      <DrawerItems />
+      <DrawerItems items={items} />
     </Drawer>
   );
 };

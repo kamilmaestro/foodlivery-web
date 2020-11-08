@@ -8,14 +8,14 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { DRAWER_WIDTH } from '../../utils/constants';
 
-export const Header = ({ handleDrawerOpen, open }) => {
+export const Header = ({ title, handleDrawerOpen, isDrawerOpen }) => {
   const classes = useStyles();
 
   return (
     <div>
       <AppBar
         position="fixed"
-        className={clsx(classes.appBar, { [classes.appBarShift]: open })}
+        className={clsx(classes.appBar, { [classes.appBarShift]: isDrawerOpen })}
       >
         <Toolbar>
           <IconButton
@@ -23,12 +23,12 @@ export const Header = ({ handleDrawerOpen, open }) => {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, { [classes.hide]: open, })}
+            className={clsx(classes.menuButton, { [classes.hide]: isDrawerOpen, })}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Foodlivery
+            { title }
           </Typography>
         </Toolbar>
       </AppBar>

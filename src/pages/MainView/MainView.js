@@ -4,26 +4,42 @@ import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
 import { useHistory } from "react-router-dom";
+import { ITEMS } from '../../components/MainView/DrawerItemsCreator';
 
 export const MainView = ({ children }) => {
   
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [currentView, setCurrentView] = useState(ITEMS[0]);
   const history = useHistory();
 
+  const decorateItemsWithOnClick = () => {
+    return ITEMS.map(item => {
+      return {
+        ...item,
+        'onClick': () => onItemClick(item)
+      };
+    });
+  };
+
+  const onItemClick = (item) => {
+    setCurrentView(item);
+    history.push(item.url);
+  };
+
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setIsDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setIsDrawerOpen(false);
   };
 
   return (
     <div style={{display: "flex"}}>
       <CssBaseline />
-      <Header handleDrawerOpen={handleDrawerOpen} open={open} />
-      <MainViewDrawer handleDrawerClose={handleDrawerClose} open={open}/>
+      <Header title={currentView.name} handleDrawerOpen={handleDrawerOpen} isDrawerOpen={isDrawerOpen} />
+      <MainViewDrawer items={decorateItemsWithOnClick()} handleDrawerClose={handleDrawerClose} open={isDrawerOpen}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         { children }
