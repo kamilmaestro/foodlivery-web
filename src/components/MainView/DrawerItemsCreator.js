@@ -5,18 +5,24 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import { HOME_PAGE_URL, MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
 
-  const createItem = (name, icon, url) => {
+  const createItem = (uuid, name, icon, url) => {
     return {
+      'uuid': uuid,
       'name': name,
       'icon': icon,
       'url': url
     };
   };
+
+  export const MY_ORDERS_VIEW_UUID = 'orders';
+  export const SUPPLIERS_VIEW_UUID = 'suppliers';
+  export const WALLET_VIEW_UUID = 'wallet';
+  export const TABLES_VIEW_UUID = 'tables';
   
   export const ITEMS = [
-    createItem('Moje zamówienia', <LocalMallIcon />, MY_ORDERS_VIEW_URL),
-    createItem('Dostawcy', <RestaurantIcon />, SUPPLIERS_VIEW_URL),
-    createItem('Portfel', <AccountBalanceWalletIcon />, WALLET_VIEW_URL),
-    createItem('Stoliki', <BookmarksIcon />, TABLES_VIEW_URL),
-    createItem('Wyloguj', <ExitToAppIcon />, HOME_PAGE_URL),
+    createItem(MY_ORDERS_VIEW_UUID, 'Moje zamówienia', <LocalMallIcon />, MY_ORDERS_VIEW_URL),
+    createItem(SUPPLIERS_VIEW_UUID, 'Dostawcy', <RestaurantIcon />, SUPPLIERS_VIEW_URL),
+    createItem(WALLET_VIEW_UUID, 'Portfel', <AccountBalanceWalletIcon />, WALLET_VIEW_URL),
+    createItem(TABLES_VIEW_UUID, 'Stoliki', <BookmarksIcon />, TABLES_VIEW_URL),
+    createItem('', 'Wyloguj', <ExitToAppIcon />, HOME_PAGE_URL),
   ];

@@ -5,11 +5,20 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
 import { DRAWER_WIDTH } from '../../utils/constants';
+import { SearchBar } from './SearchBar';
+import { SUPPLIERS_VIEW_UUID } from '../../components/MainView/DrawerItemsCreator';
 
-export const Header = ({ title, handleDrawerOpen, isDrawerOpen }) => {
+export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen }) => {
+  
   const classes = useStyles();
+
+  const isSuppliersView = () => {
+    return currentView.uuid === SUPPLIERS_VIEW_UUID;
+  }
 
   return (
     <div>
@@ -28,8 +37,20 @@ export const Header = ({ title, handleDrawerOpen, isDrawerOpen }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            { title }
+            { currentView.name }
           </Typography>
+          {
+            isSuppliersView() &&
+              <React.Fragment>
+                <SearchBar placeholder='Szukaj dostawców' />
+                <div style={{flexGrow: 1}} />
+                <Tooltip title='Dodaj nowego dostawcę' >
+                  <IconButton color="inherit">
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              </React.Fragment>
+          }
         </Toolbar>
       </AppBar>
     </div>
@@ -57,5 +78,5 @@ const useStyles = makeStyles((theme) => ({
   },
   hide: {
     display: 'none',
-  },
+  }
 }));

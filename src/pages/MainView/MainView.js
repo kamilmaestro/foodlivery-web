@@ -3,15 +3,33 @@ import { makeStyles } from '@material-ui/core/styles';
 import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
-import { useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { ITEMS } from '../../components/MainView/DrawerItemsCreator';
+import { MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
 
 export const MainView = ({ children }) => {
   
-  const classes = useStyles();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [currentView, setCurrentView] = useState(ITEMS[0]);
+  const location = useLocation();
   const history = useHistory();
+  const classes = useStyles();
+
+  const getCurrentView = () => {
+    switch (location.pathname) {
+      case MY_ORDERS_VIEW_URL:
+        return ITEMS[0];
+      case SUPPLIERS_VIEW_URL:
+        return ITEMS[1];
+      case WALLET_VIEW_URL:
+        return ITEMS[2];
+      case TABLES_VIEW_URL:
+        return ITEMS[3];
+      default:
+        return ITEMS[0];
+    }
+  }
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [currentView, setCurrentView] = useState(getCurrentView());
 
   const decorateItemsWithOnClick = () => {
     return ITEMS.map(item => {
@@ -38,7 +56,7 @@ export const MainView = ({ children }) => {
   return (
     <div style={{display: "flex"}}>
       <CssBaseline />
-      <Header title={currentView.name} handleDrawerOpen={handleDrawerOpen} isDrawerOpen={isDrawerOpen} />
+      <Header currentView={currentView} handleDrawerOpen={handleDrawerOpen} isDrawerOpen={isDrawerOpen} />
       <MainViewDrawer items={decorateItemsWithOnClick()} handleDrawerClose={handleDrawerClose} open={isDrawerOpen}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />

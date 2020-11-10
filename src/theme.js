@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { deepOrange, red } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 
 export const theme = createMuiTheme({
   palette: {
@@ -7,7 +7,7 @@ export const theme = createMuiTheme({
       main: red[700],
     },
     secondary: {
-      main: deepOrange[500],
+      main: '#ffffff',
     },
   },
 });
