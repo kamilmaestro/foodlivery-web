@@ -1,3 +1,4 @@
+export const SERVER_URL = 'http://localhost:8080';
 export const HOME_PAGE_URL = '/';
 export const SIGN_IN_PAGE_URL = '/signin';
 export const MY_ORDERS_VIEW_URL = '/app/orders';
