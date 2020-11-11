@@ -12,7 +12,7 @@ import { DRAWER_WIDTH } from '../../utils/constants';
 import { SearchBar } from './SearchBar';
 import { SUPPLIERS_VIEW_UUID } from '../../components/MainView/DrawerItemsCreator';
 
-export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen }) => {
+export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen, handleAddModalOpen }) => {
   
   const classes = useStyles();
 
@@ -45,7 +45,7 @@ export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen }) => {
                 <SearchBar placeholder='Szukaj dostawców' />
                 <div style={{flexGrow: 1}} />
                 <Tooltip title='Dodaj nowego dostawcę' >
-                  <IconButton color="inherit">
+                  <IconButton color="inherit" onClick={handleAddModalOpen}>
                     <AddIcon />
                   </IconButton>
                 </Tooltip>

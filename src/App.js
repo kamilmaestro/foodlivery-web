@@ -18,13 +18,15 @@ function App() {
         <Switch>
           <Route exact path = {HOME_PAGE_URL} component = {HomePage} />
           <Route exact path = {SIGN_IN_PAGE_URL} component = {SignInPage} />
-          <Route exact path = {MY_ORDERS_VIEW_URL} render = { () => <MainView > <MyOrdersView /> </MainView> } />
-          <Route exact path = {SUPPLIERS_VIEW_URL} render = { () => <MainView > <SuppliersView /> </MainView> } />
-          <Route exact path = {WALLET_VIEW_URL} render = { () => <MainView > <WalletView /> </MainView> } />
+          <Route exact path={ [MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, WALLET_VIEW_URL] } component={MainView} />
         </Switch>
       </ThemeProvider>
     </div>
   );
 }
+
+// <Route exact path = {MY_ORDERS_VIEW_URL} render = { () => <MainView > <MyOrdersView /> </MainView> } />
+// <Route exact path = {SUPPLIERS_VIEW_URL} render = { () => <MainView > <SuppliersView /> </MainView> } />
+// <Route exact path = {WALLET_VIEW_URL} render = { () => <MainView > <WalletView /> </MainView> } />
 
 export default App;

@@ -1,9 +1,12 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { AddSupplierModal } from './AddSupplierModal';
 
-export const SuppliersView = () => {
+export const SuppliersView = ({ isAddModalOpen, handleAddModalClose }) => {
+
   return (
     <div>
       Suppliers
+      <AddSupplierModal isOpen = {isAddModalOpen} handleClose={handleAddModalClose} />
     </div>
   );
 };
