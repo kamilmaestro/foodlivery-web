@@ -24,7 +24,7 @@ export const AddSupplierModal = ({ isOpen, handleClose }) => {
     onClose();
     e.preventDefault();
     uploadImage(image)
-      .then((response)=>{
+      .then((response) => {
         console.log(response.data);
       }).catch(error => {
         console.log(error)

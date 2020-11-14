@@ -3,26 +3,7 @@ import { Avatar, Button, Grid, Link, TextField, Typography } from '@material-ui/
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-export const SignIn = ({ onClickButton, onSubmit }) => {
+export const SignIn = ({ onClickButton, onChangeUsername, onChangePassword, onSubmit }) => {
   const classes = useStyles();
 
   return (
@@ -42,6 +23,7 @@ export const SignIn = ({ onClickButton, onSubmit }) => {
           id="username"
           label="Nazwa użytkownika"
           autoFocus
+          onChange={onChangeUsername}
         />
         <TextField
           variant="outlined"
@@ -51,6 +33,7 @@ export const SignIn = ({ onClickButton, onSubmit }) => {
           label="Hasło"
           type="password"
           id="password"
+          onChange={onChangePassword}
         />
         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={onSubmit} >
           Zatwierdź
@@ -64,3 +47,22 @@ export const SignIn = ({ onClickButton, onSubmit }) => {
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
