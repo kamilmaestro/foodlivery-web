@@ -25,8 +25,4 @@ function App() {
   );
 }
 
-// <Route exact path = {MY_ORDERS_VIEW_URL} render = { () => <MainView > <MyOrdersView /> </MainView> } />
-// <Route exact path = {SUPPLIERS_VIEW_URL} render = { () => <MainView > <SuppliersView /> </MainView> } />
-// <Route exact path = {WALLET_VIEW_URL} render = { () => <MainView > <WalletView /> </MainView> } />
-
 export default App;

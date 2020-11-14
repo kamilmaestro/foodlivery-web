@@ -35,7 +35,7 @@ export const SignIn = ({ onClickButton, onChangeUsername, onChangePassword, onSu
           id="password"
           onChange={onChangePassword}
         />
-        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={onSubmit} >
+        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={(e) => onSubmit(e)} >
           Zatwierdź
         </Button>
         <Grid item>

@@ -27,7 +27,8 @@ export const SignInPage = () => {
     setHasAccount(!hasAccount);
   }
 
-  const onSignInSubmit = () => {
+  const onSignInSubmit = (event) => {
+    event.preventDefault();
     signIn(username, password)
       .then((response) => {
         if (response.status === 200) {
