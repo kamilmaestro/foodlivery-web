@@ -10,15 +10,10 @@ import AddIcon from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
 import { DRAWER_WIDTH } from '../../utils/constants';
 import { SearchBar } from './SearchBar';
-import { SUPPLIERS_VIEW_UUID } from '../../components/MainView/DrawerItemsCreator';
 
-export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen, handleAddModalOpen }) => {
+export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpen, handleAdd }) => {
   
   const classes = useStyles();
-
-  const isSuppliersView = () => {
-    return currentView.uuid === SUPPLIERS_VIEW_UUID;
-  }
 
   return (
     <div>
@@ -37,15 +32,18 @@ export const Header = ({ currentView, handleDrawerOpen, isDrawerOpen, handleAddM
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            { currentView.name }
+            { title }
           </Typography>
           {
-            isSuppliersView() &&
+            searchPlaceholder &&
+              <SearchBar placeholder={searchPlaceholder} />
+          }
+          {
+            handleAdd &&
               <React.Fragment>
-                <SearchBar placeholder='Szukaj dostawców' />
                 <div style={{flexGrow: 1}} />
                 <Tooltip title='Dodaj nowego dostawcę' >
-                  <IconButton color="inherit" onClick={handleAddModalOpen}>
+                  <IconButton color="inherit" onClick={handleAdd}>
                     <AddIcon />
                   </IconButton>
                 </Tooltip>

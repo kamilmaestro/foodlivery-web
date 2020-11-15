@@ -8,13 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import PhoneIcon from '@material-ui/icons/Phone';
 import { getImageUrl } from '../../utils/imagesGetter';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import { IconButton } from '@material-ui/core';
 
 export const SupplierPreview = ({ supplier }) => {
 
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <Card className={classes.root}>

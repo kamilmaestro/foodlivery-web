@@ -7,10 +7,26 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Drawer from '@material-ui/core/Drawer';
 import { DRAWER_WIDTH } from '../../utils/constants';
 import { DrawerItems } from './DrawerItems';
+import { ITEMS } from './DrawerItemsCreator';
+import { useLocation, useHistory } from "react-router-dom";
 
-export const MainViewDrawer = ({ items, handleDrawerClose, open }) => {
+export const MainViewDrawer = ({ handleDrawerClose, open }) => {
 
   const classes = useStyles();
+  const history = useHistory();
+
+  const decorateItemsWithOnClick = () => {
+    return ITEMS.map(item => {
+      return {
+        ...item,
+        'onClick': () => onItemClick(item)
+      };
+    });
+  };
+
+  const onItemClick = (item) => {
+    history.push(item.url);
+  };
 
   return (
     <Drawer
@@ -24,7 +40,7 @@ export const MainViewDrawer = ({ items, handleDrawerClose, open }) => {
         </IconButton>
       </div>
       <Divider />
-      <DrawerItems items={items} />
+      <DrawerItems items={decorateItemsWithOnClick()} />
     </Drawer>
   );
 };
