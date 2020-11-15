@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useLocation, useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { SUPPLIER_VIEW_URL, SUPPLIERS_VIEW_URL } from '../../utils/urlProvider';
 import { SuppliersList } from '../../components/SuppliersView/SuppliersList';
 import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
 import { Supplier } from '../../components/SuppliersView/Supplier';
+import { connect } from 'react-redux';
 
-export const SupplierView = () => {
+export const SupplierView = ({ contextReducer }) => {
 
   const classes = useStyles();
-  const location = useLocation();
-  const history = useHistory();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const match = useRouteMatch();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const handleAddModalOpen = () => {
@@ -24,10 +24,6 @@ export const SupplierView = () => {
     setIsAddModalOpen(false);
   };
 
-  const onItemClick = (item) => {
-    history.push(item.url);
-  };
-
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
   };
@@ -36,12 +32,18 @@ export const SupplierView = () => {
     setIsDrawerOpen(false);
   };
 
+  const getHeaderTitle = () => {
+    return match.params.name ? 
+      decodeURI(match.params.name) 
+      : 'Dostawcy';
+  }
+
   const renderCurrentView = () => {
-    switch (location.pathname) {
+    switch (match.path) {
       case SUPPLIERS_VIEW_URL:
         return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
       case SUPPLIER_VIEW_URL:
-        return <Supplier />;
+        return <Supplier match={match} />;
       default:
         return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
     }
@@ -51,8 +53,8 @@ export const SupplierView = () => {
     <div style={{display: "flex"}} >
       <CssBaseline />
       <Header 
-        title={'Dostawcy'}
-        searchPlaceholder='Szukaj dostawców' 
+        title={getHeaderTitle()}
+        searchPlaceholder={match.path === SUPPLIERS_VIEW_URL ? 'Szukaj dostawców' : undefined} 
         handleDrawerOpen={handleDrawerOpen} 
         isDrawerOpen={isDrawerOpen} 
         handleAdd={handleAddModalOpen} 
@@ -67,6 +69,12 @@ export const SupplierView = () => {
     </div>
   );
 };
+
+const mapStateToProps = ({ contextReducer }) => {
+  return { contextReducer };
+};
+
+export default connect(mapStateToProps)(SupplierView);
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

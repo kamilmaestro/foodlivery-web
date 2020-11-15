@@ -10,7 +10,7 @@ import { getImageUrl } from '../../utils/imagesGetter';
 import Button from '@material-ui/core/Button';
 import { IconButton } from '@material-ui/core';
 
-export const SupplierPreview = ({ supplier }) => {
+export const SupplierPreview = ({ supplier, onClick }) => {
 
   const classes = useStyles();
 
@@ -18,7 +18,7 @@ export const SupplierPreview = ({ supplier }) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.cover}
-        image={supplier.imageId ? getImageUrl(supplier.imageId) : ''}
+        image={getImageUrl(supplier.imageId)}
       />
       <div className={classes.details}>
         <CardContent className={classes.content}>
@@ -35,7 +35,7 @@ export const SupplierPreview = ({ supplier }) => {
           </IconButton>
         </CardContent>
         <div className={classes.controls}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={() => onClick(supplier.id, supplier.name)} >
             Sprawdź menu
           </Button>
         </div>
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     paddingLeft: 32,
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
   },
   playIcon: {
     height: 38,

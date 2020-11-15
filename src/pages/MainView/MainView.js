@@ -3,18 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
-import { useLocation, useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { ITEMS } from '../../components/MainView/DrawerItemsCreator';
-import { MY_ORDERS_VIEW_URL, SUPPLIER_VIEW_URL, SUPPLIERS_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
-import { AddSupplierModal } from '../../components/SuppliersView/AddSupplierModal';
-import { SUPPLIERS_VIEW_UUID } from '../../components/MainView/DrawerItemsCreator';
+import { MY_ORDERS_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
 import { MyOrdersView } from '../../components/MyOrdersView/MyOrdersView';
 import { WalletView } from '../../components/WalletView/WalletView';
+import { connect } from 'react-redux';
 
-export const MainView = ({ children }) => {
+const MainView = ({ contextReducer }) => {
   
   const getCurrentView = () => {
-    switch (location.pathname) {
+    switch (match.path) {
       case MY_ORDERS_VIEW_URL:
         return ITEMS[0];
       case WALLET_VIEW_URL:
@@ -26,14 +25,14 @@ export const MainView = ({ children }) => {
     }
   }
 
-  const location = useLocation();
-  const history = useHistory();
+  const match = useRouteMatch();
   const classes = useStyles();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [currentView, setCurrentView] = useState(getCurrentView());
 
   const renderCurrentView = () => {
-    switch (location.pathname) {
+    console.log(contextReducer.token)
+    switch (match.path) {
       case MY_ORDERS_VIEW_URL:
         return <MyOrdersView />;
       case WALLET_VIEW_URL:
@@ -71,6 +70,12 @@ export const MainView = ({ children }) => {
     </div>
   );
 }
+
+const mapStateToProps = ({ contextReducer }) => {
+  return { contextReducer };
+};
+
+export default connect(mapStateToProps)(MainView);
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

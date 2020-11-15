@@ -10,7 +10,7 @@ export const contextReducer = (state = initialState, action) => {
     case AUTH_SUCCESS:
       return {
         ...state,
-        token: action.payload.token
+        token: action.payload
       };
     case AUTH_FAILURE:
       return {

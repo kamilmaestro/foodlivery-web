@@ -14,7 +14,7 @@ import { authSuccess } from '../../actions/contextActions';
 import { signIn } from '../../apiServices/authenticationApi';
 import { AUTH_HEADER } from '../../utils/constants';
 
-export const SignInPage = () => {
+const SignInPage = ({ setHeader }) => {
 
   const classes = useStyles();
   const history = useHistory();
@@ -32,8 +32,7 @@ export const SignInPage = () => {
     signIn(username, password)
       .then((response) => {
         if (response.status === 200) {
-          const header = Object.values(response.headers)[0];
-          authSuccess(header);
+          setHeader(Object.values(response.headers)[0]);
           history.push(MAIN_VIEW_URL);
           resetData();
         } else {
@@ -87,15 +86,15 @@ export const SignInPage = () => {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    token: state.token,
-  };
-};
+      setHeader: (data) => {
+          dispatch(authSuccess(data))
+      }
+  }
+}
 
-const mapDispatchToProps = { authSuccess };
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
+export default connect(null, mapDispatchToProps)(SignInPage);
 
 const useStyles = makeStyles(() => ({
   image: {

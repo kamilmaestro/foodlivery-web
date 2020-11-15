@@ -2,10 +2,10 @@ import React from "react";
 import './App.css';
 import { Route, Switch } from "react-router-dom";
 import { HomePage } from "./pages/HomePage/HomePage";
-import { SignInPage } from "./pages/SignInPage/SignInPage";
+import  SignInPage  from "./pages/SignInPage/SignInPage";
 import { ThemeProvider } from '@material-ui/core'
 import { theme } from './theme';
-import { MainView } from "./pages/MainView/MainView";
+import MainView from "./pages/MainView/MainView";
 import { SupplierView } from "./pages/SupplierView/SupplierView";
 import { HOME_PAGE_URL, MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, SIGN_IN_PAGE_URL, SUPPLIER_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from './utils/urlProvider';
 

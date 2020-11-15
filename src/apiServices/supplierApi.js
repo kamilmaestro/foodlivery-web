@@ -12,3 +12,9 @@ export const getSuppliersPage = () => {
 
   return get(url);
 }
+
+export const getSupplierWithMenu = (id) => {
+  const url = `${SERVER_URL}/supplier/${id}`;
+
+  return get(url);
+}
