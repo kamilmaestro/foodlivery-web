@@ -7,6 +7,7 @@ import { SupplierPreview } from '../../components/SuppliersView/SupplierPreview'
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { supplierUrl } from '../../utils/urlProvider';
+import { getToken } from '../../utils/tokenGetter';
 
 export const SuppliersList = ({ isAddModalOpen, handleAddModalClose }) => {
 

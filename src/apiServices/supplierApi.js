@@ -1,4 +1,4 @@
-import { get, post } from 'axios';
+import Axios, { get, post } from 'axios';
 import { SERVER_URL } from '../utils/urlProvider';
 
 export const addNewSupplier = (supplier) => {

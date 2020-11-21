@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { authSuccess } from '../../actions/contextActions';
 import { signIn } from '../../apiServices/authenticationApi';
 import { AUTH_HEADER } from '../../utils/constants';
+import { setToken } from '../../utils/tokenGetter';
 
 const SignInPage = ({ setHeader }) => {
 
@@ -33,6 +34,7 @@ const SignInPage = ({ setHeader }) => {
       .then((response) => {
         if (response.status === 200) {
           setHeader(Object.values(response.headers)[0]);
+          setToken(Object.values(response.headers)[0]);
           history.push(MAIN_VIEW_URL);
           resetData();
         } else {
