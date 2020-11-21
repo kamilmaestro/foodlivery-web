@@ -12,8 +12,11 @@ import { getSupplierWithMenu } from '../../apiServices/supplierApi';
 import PlaceIcon from '@material-ui/icons/Place';
 import PhoneIcon from '@material-ui/icons/Phone';
 import { IconButton } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import { Food } from './Food';
+import { AddFoodModal } from './AddFoodModal';
 
-export const Supplier = ({ match }) => {
+export const Supplier = ({ match, isAddModalOpen, handleAddModalClose }) => {
 
   const classes = useStyles();
   const [supplier, setSupplier] = useState({});
@@ -21,33 +24,37 @@ export const Supplier = ({ match }) => {
 
   useEffect(() => {
     getSupplier();
-  }, [])
+  }, [isAddModalOpen])
 
   const getSupplier = () => {
     getSupplierWithMenu(match.params.id)
       .then((response) => {
         setSupplier(response.data.supplier);
         setMenu(response.data.menu);
-        console.log(response.data);
       }).catch(error => {
         console.log(error)
       })
   }
 
+  const onAddFoodToMenu = () => {
+    getSupplier();
+  }
+
   return (
     <Card className={classes.root}>
-      <div>
-        <img
-          className={classes.media}
-          src={getImageUrl(supplier.imageId)}
-          alt=''
-        />
+      <AddFoodModal isOpen={isAddModalOpen} handleOpen={onAddFoodToMenu} handleClose={handleAddModalClose} match={match} />
+      <img
+        className={classes.media}
+        src={getImageUrl(supplier.imageId)}
+        alt=''
+      />
+      <div className={classes.info}>
         <CardContent>
-          <IconButton disabled style={{color: "black"}} >
+          <IconButton disabled >
             <PhoneIcon />
             { supplier.phoneNumber }
           </IconButton>
-          <IconButton disabled style={{color: "black"}} >
+          <IconButton disabled >
             <PlaceIcon />
             { supplier.address }
           </IconButton>
@@ -58,23 +65,38 @@ export const Supplier = ({ match }) => {
           </Button>
         </CardActions>
       </div>
+      <div>
+        <List component="nav">
+          {
+            menu.map((food, index) => 
+              <Food food={food} />
+            )
+          }
+        </List>
+      </div>
     </Card>
   );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    marginLeft: '15%',
-    marginRight: '15%',
-
+    marginLeft: '5%',
+    marginRight: '5%'
   },
   media: {
-    maxHeight: 400,
+    marginTop: 25,
+    maxHeight: 250,
     objectFit: 'contain',
-    width: '100%'
+    width: '100%',
+    borderRadius: '10%'
+  },
+  info: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginLeft: '3%',
+    marginRight: '3%'
   },
   action: {
-    paddingLeft: 28,
-    paddingBottom: 25
+    marginRight: '2%'
   }
-});
+}));

@@ -18,3 +18,9 @@ export const getSupplierWithMenu = (id) => {
 
   return get(url);
 }
+
+export const addNewFood = (food) => {
+  const url = `${SERVER_URL}/supplier/food`;
+
+  return post(url, food);
+}

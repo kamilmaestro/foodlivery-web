@@ -43,7 +43,7 @@ export const SupplierView = ({ contextReducer }) => {
       case SUPPLIERS_VIEW_URL:
         return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
       case SUPPLIER_VIEW_URL:
-        return <Supplier match={match} />;
+        return <Supplier match={match} isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
       default:
         return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
     }
