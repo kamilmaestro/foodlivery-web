@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
 import { useRouteMatch } from "react-router-dom";
 import { ITEMS } from '../../components/MainView/DrawerItemsCreator';
-import { MY_ORDERS_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
+import { MY_ORDERS_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
 import { MyOrdersView } from '../../components/MyOrdersView/MyOrdersView';
 import { WalletView } from '../../components/WalletView/WalletView';
 import { connect } from 'react-redux';
@@ -18,8 +18,6 @@ const MainView = ({ contextReducer }) => {
         return ITEMS[0];
       case WALLET_VIEW_URL:
         return ITEMS[2];
-      case TABLES_VIEW_URL:
-        return ITEMS[3];
       default:
         return ITEMS[0];
     }
@@ -31,13 +29,12 @@ const MainView = ({ contextReducer }) => {
   const [currentView, setCurrentView] = useState(getCurrentView());
 
   const renderCurrentView = () => {
+    console.log(contextReducer.user)
     switch (match.path) {
       case MY_ORDERS_VIEW_URL:
         return <MyOrdersView />;
       case WALLET_VIEW_URL:
         return <WalletView />;
-      case TABLES_VIEW_URL:
-        return <div>Table</div>;
       default:
         return <MyOrdersView />;
     }

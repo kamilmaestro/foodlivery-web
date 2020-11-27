@@ -8,6 +8,7 @@ import { theme } from './theme';
 import MainView from "./pages/MainView/MainView";
 import { SupplierView } from "./pages/SupplierView/SupplierView";
 import { HOME_PAGE_URL, MY_ORDERS_VIEW_URL, SUPPLIERS_VIEW_URL, SIGN_IN_PAGE_URL, SUPPLIER_VIEW_URL, TABLES_VIEW_URL, WALLET_VIEW_URL } from './utils/urlProvider';
+import { TablesView } from "./pages/TablesView";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path = {SIGN_IN_PAGE_URL} component = {SignInPage} />
           <Route exat path={ [MY_ORDERS_VIEW_URL, WALLET_VIEW_URL] } component={MainView} />
           <Route exat path={ [SUPPLIERS_VIEW_URL, SUPPLIER_VIEW_URL] } component={SupplierView} />
+          <Route exat path={ [TABLES_VIEW_URL] } component={TablesView} />
         </Switch>
       </ThemeProvider>
     </div>

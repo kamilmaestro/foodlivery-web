@@ -1,4 +1,4 @@
-import { post } from 'axios';
+import {axios} from '../utils/tokenGetter'
 import { SERVER_URL } from '../utils/urlProvider';
 
 export const uploadImage = (file) => {
@@ -11,5 +11,5 @@ export const uploadImage = (file) => {
       }
   }
 
-  return post(url, formData, config)
+  return axios.post(url, formData, config)
 }

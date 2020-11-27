@@ -10,8 +10,9 @@ import AddIcon from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
 import { DRAWER_WIDTH } from '../../utils/constants';
 import { SearchBar } from './SearchBar';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpen, handleAdd }) => {
+export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpen, handleAdd, handleJoin }) => {
   
   const classes = useStyles();
 
@@ -38,11 +39,19 @@ export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpe
             searchPlaceholder &&
               <SearchBar placeholder={searchPlaceholder} />
           }
+          <div style={{flexGrow: 1}} />
+          {
+            handleJoin &&
+              <Tooltip title='Wygeneruj zaproszenie do kanału' >
+                <IconButton color="inherit" onClick={handleJoin}>
+                  <PersonAddIcon />
+                </IconButton>
+              </Tooltip>
+          }
           {
             handleAdd &&
               <React.Fragment>
-                <div style={{flexGrow: 1}} />
-                <Tooltip title='Dodaj nowego dostawcę' >
+                <Tooltip title={handleJoin ? 'Dodaj nowy kanał' : 'Dodaj nowego dostawcę'} >
                   <IconButton color="inherit" onClick={handleAdd}>
                     <AddIcon />
                   </IconButton>

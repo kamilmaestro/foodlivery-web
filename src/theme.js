@@ -9,5 +9,16 @@ export const theme = createMuiTheme({
     secondary: {
       main: '#ffffff',
     },
+    text: {
+      primary: "#37474f",
+    }
   },
+  typography: {
+    "fontFamily": `"lato", sans-serif`,
+    "fontStyle": "normal",
+    "fontWeightLight": 100,
+    "fontWeightRegular": 200,
+    "fontWeightMedium": 500,
+    "color": "#ff0000"
+   }
 });

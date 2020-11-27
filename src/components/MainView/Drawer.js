@@ -36,7 +36,7 @@ export const MainViewDrawer = ({ handleDrawerClose, open }) => {
     >
       <div className={classes.toolbar}>
         <IconButton onClick={handleDrawerClose}>
-          <ChevronLeftIcon />
+          <ChevronLeftIcon color="primary" />
         </IconButton>
       </div>
       <Divider />

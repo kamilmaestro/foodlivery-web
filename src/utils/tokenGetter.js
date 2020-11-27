@@ -4,11 +4,21 @@ import { AUTH_HEADER } from './constants';
 const TOKEN_KEY = 'AuthToken';
 
 export const setToken = (token) => {
+  //localStorage.removeItem(TOKEN_KEY);
   localStorage.setItem(TOKEN_KEY, token);
 }
 
-export const getToken = () => {
+const getToken = () => {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-Axios.defaults.headers.common[AUTH_HEADER] = getToken()
+export const axios = Axios.create({
+  headers: {     
+      AUTH_HEADER: getToken()
+  }
+})
+
+axios.interceptors.request.use(config => {
+  config.headers.common[AUTH_HEADER] = getToken();
+  return config;
+});

@@ -2,7 +2,10 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 
 const initialState = {
-  token: ''
+  user: {
+    id: null,
+    userName: null
+  }
 };
 
 export const contextReducer = (state = initialState, action) => {
@@ -10,7 +13,7 @@ export const contextReducer = (state = initialState, action) => {
     case AUTH_SUCCESS:
       return {
         ...state,
-        token: action.payload
+        user: action.payload
       };
     case AUTH_FAILURE:
       return {

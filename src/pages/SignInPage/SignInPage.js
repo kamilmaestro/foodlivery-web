@@ -15,7 +15,7 @@ import { signIn } from '../../apiServices/authenticationApi';
 import { AUTH_HEADER } from '../../utils/constants';
 import { setToken } from '../../utils/tokenGetter';
 
-const SignInPage = ({ setHeader }) => {
+const SignInPage = ({ setLoggedInUser }) => {
 
   const classes = useStyles();
   const history = useHistory();
@@ -33,7 +33,7 @@ const SignInPage = ({ setHeader }) => {
     signIn(username, password)
       .then((response) => {
         if (response.status === 200) {
-          setHeader(Object.values(response.headers)[0]);
+          setLoggedInUser(response.data);
           setToken(Object.values(response.headers)[0]);
           history.push(MAIN_VIEW_URL);
           resetData();
@@ -90,8 +90,8 @@ const SignInPage = ({ setHeader }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      setHeader: (data) => {
-          dispatch(authSuccess(data))
+      setLoggedInUser: (data) => {
+        dispatch(authSuccess(data))
       }
   }
 }
