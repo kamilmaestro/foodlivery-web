@@ -21,7 +21,7 @@ import RestaurantIcon from '@material-ui/icons/Restaurant';
 import Button from '@material-ui/core/Button';
 import { ProposalHeader } from './ProposalHeader';
 
-export const ProposalPreview = ({ proposal, food, supplier, onClick }) => {
+export const ProposalPreview = ({ proposal, food, supplier, memberName, onClick }) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -30,8 +30,8 @@ export const ProposalPreview = ({ proposal, food, supplier, onClick }) => {
     setExpanded(!expanded);
   };
 
-  const getDate = () => {
-    let date = new Date(proposal.createdAt);
+  const getDate = (toFormat) => {
+    let date = new Date(toFormat);
     date.setSeconds(0, 0);
     return date.toISOString().replace(/T/, " ").replace(/:00.000Z/, "");
   }
@@ -69,8 +69,14 @@ export const ProposalPreview = ({ proposal, food, supplier, onClick }) => {
       <Collapse in={expanded} timeout={500} unmountOnExit>
         <CardContent>
           <Typography variant="h6" className={classes.text}>
-            { `Złożone: ${getDate()}` }
+            { `Wygasa: ${getDate(proposal.expirationDate)}` }
           </Typography>
+          {
+            memberName &&
+              <Typography variant="h6" className={classes.text}>
+                { `Dodane przez: ${memberName}` }
+              </Typography>
+          }
         </CardContent>
       </Collapse>
     </Card>
@@ -81,7 +87,7 @@ export const ProposalPreview = ({ proposal, food, supplier, onClick }) => {
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 250,
-    marginTop: 10
+    marginTop: 12
   },
   expand: {
     transform: 'rotate(0deg)',

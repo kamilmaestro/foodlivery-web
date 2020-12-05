@@ -6,11 +6,15 @@ import {MainViewDrawer} from '../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../components/MainView/Header';
 import { TablesList } from '../components/TablesView/TablesList';
-import { getTablesPage, joinNewTable } from '../apiServices/tablesApi';
+import { getMembersList, getTablesPage, joinNewTable } from '../apiServices/tablesApi';
 import { AddTableModal } from '../components/TablesView/AddTableModal';
 import { ProposalsList } from '../components/TablesView/ProposalsList';
 import { JoinTableModal } from '../components/TablesView/JoinTableModal';
 import { InvitationPopover } from '../components/TablesView/InvitationPopover';
+import { MembersDrawer } from '../components/TablesView/MembersDrawer';
+import { AddProposalFAB } from '../components/TablesView/AddProposalFAB';
+import { AddProposalModal } from '../components/TablesView/AddProposalModal/AddProposalModal';
+import { getProposalsPage, createNewProposal } from '../apiServices/orderApi';
 
 export const TablesView = () => {
 
@@ -19,26 +23,69 @@ export const TablesView = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [tables, setTables] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
+  const [proposals, setProposals] = useState([]);
+  const [members, setMembers] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isJoinTableModalOpen, setIsJoinTableModalOpen] = useState(false);
+  const [isAddProposalModalOpen, setIsAddProposalModalOpen] = useState(false);
   const [isInviatationPopoverOpen, setIsInviatationPopoverOpen] = useState(false);
+  const [isMembersDrawerOpen, setIsMembersDrawerOpen] = useState(false);
 
   useEffect(() => {
     getTables();
-  }, [isAddModalOpen])
+  }, [])
+
+  useEffect(() => {
+    getTableMembers(currentTable);
+  }, [currentTable])
+
+  
+  useEffect(() => {
+    if (currentTable) {
+      getProposals(currentTable);
+    }
+  }, [currentTable])
 
   const getTables = () => {
     getTablesPage()
       .then((response) => {
         setTables(response.data.content);
         if (response.data.content.length >= 1) {
-
           setCurrentTable(response.data.content[0].id);
         }
       }).catch(error => {
         console.log(error)
+      });
+  }
+
+  const getTableMembers = (tableId) => {
+    if (tableId) {
+    getMembersList(tableId)
+      .then((response) => {
+        setMembers(response.data);
+      }).catch(error => {
+        console.log(error)
+      });
+    }
+  }
+
+  const getProposals = (tableId) => {
+    getProposalsPage(tableId)
+      .then((response) => {
+        console.log('prop ', response.data.content)
+        setProposals(response.data.content);
+      }).catch(error => {
+        console.log(error)
       })
   }
+
+  const handleMembersDrawerOpen = () => {
+    setIsMembersDrawerOpen(true);
+  };
+
+  const handleMembersDrawerClose = () => {
+    setIsMembersDrawerOpen(false);
+  };
 
   const handleAddModalOpen = () => {
     setIsAddModalOpen(true);
@@ -46,6 +93,14 @@ export const TablesView = () => {
 
   const handleAddModalClose = () => {
     setIsAddModalOpen(false);
+  };
+
+  const handleAddProposalModalOpen = () => {
+    setIsAddProposalModalOpen(true);
+  };
+
+  const handleAddProposalModalClose = () => {
+    setIsAddProposalModalOpen(false);
   };
 
   const handleDrawerOpen = () => {
@@ -57,7 +112,17 @@ export const TablesView = () => {
   };
 
   const onTableClick = (id) => {
+    console.log('tabe: ', id)
     setCurrentTable(id)
+  }
+
+  const addProposal = (newProposal) => {
+    createNewProposal(newProposal)
+      .then(() => {
+        getProposals(currentTable);
+      }).catch(error => {
+        console.log(error)
+      })
   }
 
   const joinTable = (invitation) => {
@@ -93,13 +158,16 @@ export const TablesView = () => {
         handleDrawerOpen={handleDrawerOpen} 
         isDrawerOpen={isDrawerOpen} 
         handleAdd={handleAddModalOpen}
-        handleJoin={handleGenerateInvitationOpen} 
+        handleJoin={handleGenerateInvitationOpen}
+        handlePeople={handleMembersDrawerOpen} 
       />
       <MainViewDrawer handleDrawerClose={handleDrawerClose} open={isDrawerOpen}/>
       <main className={classes.content}>
         <AddTableModal isOpen={isAddModalOpen} handleClose={handleAddModalClose} />
         <JoinTableModal isOpen={isJoinTableModalOpen} handleAccept={joinTable} handleClose={handleJoinTableModalClose} />
+        <AddProposalModal isOpen={isAddProposalModalOpen} handleClose={handleAddProposalModalClose} onAddProposal={addProposal} tableId={currentTable} />
         <InvitationPopover isOpen={isInviatationPopoverOpen} handleClose={handleGenerateInvitationClose} tableId={currentTable} />
+        <MembersDrawer members={members} isOpen={isMembersDrawerOpen} handleClose={handleMembersDrawerClose} />
         <div className={classes.toolbar} />
         <div style={{display: 'flex'}}>
           <TablesList 
@@ -108,7 +176,8 @@ export const TablesView = () => {
             onAddClick={handleJoinTableModalOpen} 
             currentTableId={currentTable} 
           />
-          <ProposalsList tableId={currentTable}/>
+          <ProposalsList tableId={currentTable} proposals={proposals} members={members} />
+          <AddProposalFAB onClick={handleAddProposalModalOpen} />
         </div>
       </main>
     </div>

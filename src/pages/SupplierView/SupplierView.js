@@ -15,6 +15,11 @@ export const SupplierView = ({ contextReducer }) => {
   const match = useRouteMatch();
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [search, setSearch] = useState(null);
+
+  const updateSearch = (e) => {
+    setSearch(e.target.value);
+  }
 
   const handleAddModalOpen = () => {
     setIsAddModalOpen(true);
@@ -41,11 +46,11 @@ export const SupplierView = ({ contextReducer }) => {
   const renderCurrentView = () => {
     switch (match.path) {
       case SUPPLIERS_VIEW_URL:
-        return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
+        return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} search={search} />;
       case SUPPLIER_VIEW_URL:
         return <Supplier match={match} isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
       default:
-        return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} />;
+        return <SuppliersList isAddModalOpen={isAddModalOpen} handleAddModalClose={handleAddModalClose} search={search} />;
     }
   }
 
@@ -54,7 +59,9 @@ export const SupplierView = ({ contextReducer }) => {
       <CssBaseline />
       <Header 
         title={getHeaderTitle()}
-        searchPlaceholder={match.path === SUPPLIERS_VIEW_URL ? 'Szukaj dostawców' : undefined} 
+        search={search}
+        searchPlaceholder={match.path === SUPPLIERS_VIEW_URL ? 'Szukaj dostawców' : undefined}
+        handleSearch={updateSearch} 
         handleDrawerOpen={handleDrawerOpen} 
         isDrawerOpen={isDrawerOpen} 
         handleAdd={handleAddModalOpen} 

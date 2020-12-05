@@ -34,6 +34,7 @@ export const InvitationPopover = ({ isOpen, handleClose, tableId }) => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         style={{marginTop: '5%', marginLeft: '14%'}}
+        transitionDuration={500}
       >
         <Typography className={classes.typography} style={{display: 'flex', justifyContent: 'center'}} variant="h6" >
           Skopiuj zaproszenie
@@ -41,8 +42,8 @@ export const InvitationPopover = ({ isOpen, handleClose, tableId }) => {
         <Typography className={classes.invitation} variant="h5">
           {invitation}
         </Typography>
-        <Typography className={classes.typography} variant="subtitle1">
-          Przekaż je znajomemu, który będzie mógł dzięki niemu dołączyć do tego kanału
+        <Typography className={classes.typography} style={{display: 'flex', justifyContent: 'center'}} variant="subtitle1">
+          Przekaż je znajomemu, który będzie mógł dzięki niemu dołączyć do tego stolika
         </Typography>
       </Popover>
     </div>

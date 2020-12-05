@@ -29,11 +29,11 @@ export const JoinTableModal = ({ isOpen, handleClose, handleAccept }) => {
   return (
     <Dialog open={isOpen} onClose={onClose} >
       <DialogTitle >
-        Dodaj kanał
+        Dosiadka?
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Podaj token otrzymany od znajomego uprawniający Cię do dołączenia do kanału
+          Podaj token otrzymany od znajomego uprawniający Cię do dołączenia do stolika. Znajomi już tu siedzą!
         </DialogContentText>
         <TextField
           autoFocus

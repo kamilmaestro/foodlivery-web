@@ -11,8 +11,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { DRAWER_WIDTH } from '../../utils/constants';
 import { SearchBar } from './SearchBar';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PeopleIcon from '@material-ui/icons/People';
 
-export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpen, handleAdd, handleJoin }) => {
+export const Header = ({ title, search, searchPlaceholder, handleDrawerOpen, isDrawerOpen, handleAdd, handleJoin, handlePeople, handleSearch }) => {
   
   const classes = useStyles();
 
@@ -36,10 +37,18 @@ export const Header = ({ title, searchPlaceholder, handleDrawerOpen, isDrawerOpe
             { title }
           </Typography>
           {
-            searchPlaceholder &&
-              <SearchBar placeholder={searchPlaceholder} />
+            searchPlaceholder && handleSearch &&
+              <SearchBar text={search} placeholder={searchPlaceholder} onChange={handleSearch} />
           }
           <div style={{flexGrow: 1}} />
+          {
+            handlePeople &&
+              <Tooltip title='Zobacz kto siedzi przy stoliku' >
+                <IconButton color="inherit" onClick={handlePeople}>
+                  <PeopleIcon />
+                </IconButton>
+              </Tooltip>
+          }
           {
             handleJoin &&
               <Tooltip title='Wygeneruj zaproszenie do kanału' >

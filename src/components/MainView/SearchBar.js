@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 
-export const SearchBar = ({ placeholder }) => {
+export const SearchBar = ({ text, placeholder, onChange }) => {
 
   const classes = useStyles();
 
@@ -13,12 +13,13 @@ export const SearchBar = ({ placeholder }) => {
         <SearchIcon />
       </div>
       <InputBase
+        onChange={onChange}
         placeholder={ placeholder }
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
-        inputProps={{ 'aria-label': 'search' }}
+        value={text}
       />
     </div>
   );

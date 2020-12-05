@@ -15,10 +15,10 @@ export const TablesList = ({ tables, onTableClick, onAddClick, currentTableId })
     <div className={classes.root}>
       <List component="nav">
         {
-          <Tooltip title='Dołącz do nowego kanału' arrow leaveDelay={200} >
+          <Tooltip title='Otrzymaj token od znajomego, aby dołączyć do nowego stolika' arrow leaveDelay={200} >
             <ListItem button key={-1} onClick={() => onAddClick()} >
               <AddIcon color="primary" style={{marginRight: 5}} />
-              <ListItemText primary='Dodaj kanał' />
+              <ListItemText primary='Dosiądź się do stolika' />
             </ListItem>
           </Tooltip>
         }

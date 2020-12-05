@@ -8,6 +8,15 @@ export const addNewSupplier = (supplier) => {
   return axios.post(url, supplier);
 }
 
+export const searchSuppliersPage = (search) => {
+  const url = `${SERVER_URL}/supplier/search`;
+  const params = {
+    text: search
+  };
+
+  return axios.get(url, { params });
+}
+
 export const getSuppliersPage = () => {
   const url = `${SERVER_URL}/supplier/`;
 
@@ -36,4 +45,10 @@ export const getFoodByIds= (ids) => {
   const url = `${SERVER_URL}/supplier/food/ids`;
 
   return axios.post(url, ids);
+}
+
+export const getSupplierFoodPage = (supplierId) => {
+  const url = `${SERVER_URL}/supplier/${supplierId}/food`;
+
+  return axios.get(url);
 }

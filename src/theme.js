@@ -11,7 +11,7 @@ export const theme = createMuiTheme({
     },
     text: {
       primary: "#37474f",
-    }
+    },
   },
   typography: {
     "fontFamily": `"lato", sans-serif`,
@@ -20,5 +20,12 @@ export const theme = createMuiTheme({
     "fontWeightRegular": 200,
     "fontWeightMedium": 500,
     "color": "#ff0000"
-   }
+  },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: "1em"
+      }
+    }
+  }
 });

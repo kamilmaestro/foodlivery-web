@@ -34,3 +34,9 @@ export const generateInvitation = (channelId) => {
 
   return axios.post(url);
 }
+
+export const getMembersList = (channelId) => {
+  const url = `${SERVER_URL}/channel/${channelId}/members`;
+
+  return axios.get(url);
+}

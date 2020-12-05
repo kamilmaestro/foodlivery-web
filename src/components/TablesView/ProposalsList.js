@@ -10,29 +10,36 @@ import { supplierUrl } from '../../utils/urlProvider';
 import { getProposalsPage } from '../../apiServices/orderApi';
 import { ProposalPreview } from './ProposalPreview';
 
-export const ProposalsList = ({ tableId }) => {
+export const ProposalsList = ({ tableId, proposals, members }) => {
 
   const history = useHistory();
-  const [proposals, setProposals] = useState([]);
+  //const [proposals, setProposals] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [food, setFood] = useState([]);
 
-  useEffect(() => {
-    if (tableId) {
-      getProposals(tableId);
-    }
-  }, [tableId])
+  // useEffect(() => {
+  //   if (tableId) {
+  //     getProposals(tableId);
+  //   }
+  // }, [tableId])
 
-  const getProposals = (tableId) => {
-    getProposalsPage(tableId)
-      .then((response) => {
-        setProposals(response.data.content);
-        getSuppliers(response.data.content);
-        getFood(response.data.content);
-      }).catch(error => {
-        console.log(error)
-      })
-  }
+  // const getProposals = (tableId) => {
+  //   getProposalsPage(tableId)
+  //     .then((response) => {
+  //       setProposals(response.data.content);
+  //       getSuppliers(response.data.content);
+  //       getFood(response.data.content);
+  //     }).catch(error => {
+  //       console.log(error)
+  //     })
+  // }
+
+  useEffect(() => {
+    if (proposals) {
+      getSuppliers(proposals);
+      getFood(proposals);
+    }
+  }, [proposals])
 
   const getSuppliers = (proposals) => {
     const supplierIds = proposals.map(proposal => proposal.supplierId)
@@ -49,7 +56,6 @@ export const ProposalsList = ({ tableId }) => {
     getFoodByIds(foodIds)
       .then((response) => {
         setFood(response.data);
-        console.log(response.data, ' food ')
       }).catch(error => {
         console.log(error)
       })
@@ -59,8 +65,15 @@ export const ProposalsList = ({ tableId }) => {
     //history.push(supplierUrl(supplierId, supplierName));
   }
 
+  const getMemberName = (proposal) => {
+    const member = members.find(member => member.memberId === proposal.createdBy)
+    return member ?
+      member.memberName
+      : null;
+  }
+
   return (
-    <div style={{marginLeft: '10%', marginRight: '10%', marginBottom: '10%', width: '100%'}}>
+    <div style={{marginLeft: '10%', marginRight: '15%', marginBottom: '10%', width: '100%'}}>
       <List component="nav">
         {
           proposals.map((proposal, index) => (
@@ -68,6 +81,7 @@ export const ProposalsList = ({ tableId }) => {
               proposal={proposal}
               supplier={suppliers.find(supplier => supplier.id === proposal.supplierId)}
               food={food.find(food => food.id === proposal.foodId)}
+              memberName={getMemberName(proposal)}
               onClick={onPreviewClick} 
               key={index} 
             />
