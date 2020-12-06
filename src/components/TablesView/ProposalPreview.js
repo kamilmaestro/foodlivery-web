@@ -21,7 +21,7 @@ import RestaurantIcon from '@material-ui/icons/Restaurant';
 import Button from '@material-ui/core/Button';
 import { ProposalHeader } from './ProposalHeader';
 
-export const ProposalPreview = ({ proposal, food, supplier, memberName, onClick }) => {
+export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickButton }) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -55,7 +55,7 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClick 
         image={food ? getImageUrl(food.imageId) : null}
       />
       <CardActions disableSpacing>
-        <Button  color="primary" variant="contained">
+        <Button  color="primary" variant="contained" onClick={() => onClickButton(supplier.id)} >
           Zostań kupującym
         </Button>
         <IconButton
@@ -87,7 +87,7 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClick 
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 250,
-    marginTop: 12
+    marginBottom: 12
   },
   expand: {
     transform: 'rotate(0deg)',

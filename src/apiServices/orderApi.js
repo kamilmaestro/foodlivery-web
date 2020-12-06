@@ -2,7 +2,7 @@ import { SERVER_URL } from '../utils/urlProvider';
 import {axios} from '../utils/tokenGetter'
 
 export const getProposalsPage = (tableId) => {
-  const url = `${SERVER_URL}/order/channel/${tableId}`;
+  const url = `${SERVER_URL}/order/channel/${tableId}/proposals`;
 
   return axios.get(url);
 }
@@ -11,4 +11,20 @@ export const createNewProposal = (name) => {
   const url = `${SERVER_URL}/order/`;
 
   return axios.post(url, name);
+}
+
+export const getOrdersPage = (tableId) => {
+  const url = `${SERVER_URL}/order/channel/${tableId}`;
+
+  return axios.get(url);
+}
+
+export const becomePurchaserForSupplier = (supplierId, tableId) => {
+  const url = `${SERVER_URL}/order/purchaser`;
+  const purchaser = {
+    supplierId: supplierId,
+    channelId: tableId
+  };
+
+  return axios.post(url, purchaser);
 }

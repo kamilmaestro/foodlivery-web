@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 325,
-    minHeight: '100vh',
+    minHeight: '93vh',
     backgroundColor: theme.palette.background.paper
   }
 }));

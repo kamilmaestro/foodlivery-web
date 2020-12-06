@@ -10,7 +10,7 @@ import { supplierUrl } from '../../utils/urlProvider';
 import { getProposalsPage } from '../../apiServices/orderApi';
 import { ProposalPreview } from './ProposalPreview';
 
-export const ProposalsList = ({ tableId, proposals, members }) => {
+export const ProposalsList = ({ proposals, members, onClick }) => {
 
   const history = useHistory();
   //const [proposals, setProposals] = useState([]);
@@ -73,7 +73,7 @@ export const ProposalsList = ({ tableId, proposals, members }) => {
   }
 
   return (
-    <div style={{marginLeft: '10%', marginRight: '15%', marginBottom: '10%', width: '100%'}}>
+    <div >
       <List component="nav">
         {
           proposals.map((proposal, index) => (
@@ -82,7 +82,7 @@ export const ProposalsList = ({ tableId, proposals, members }) => {
               supplier={suppliers.find(supplier => supplier.id === proposal.supplierId)}
               food={food.find(food => food.id === proposal.foodId)}
               memberName={getMemberName(proposal)}
-              onClick={onPreviewClick} 
+              onClickButton={onClick} 
               key={index} 
             />
           ))

@@ -4,13 +4,13 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 
-export const AddProposalFAB = ({ onClick }) => {
+export const AddFAB = ({ onClick, tooltip }) => {
 
   const classes = useStyles();
 
   return (
     <div>
-    <Tooltip title="Dodaj nową propozycję przy stoliku" style={{fontSize: 70}}>
+    <Tooltip title={tooltip} style={{fontSize: 70}}>
       <Fab color="primary" className={classes.fab} onClick={onClick} >
         <AddIcon className={classes.icon} />
       </Fab>

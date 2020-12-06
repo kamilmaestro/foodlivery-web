@@ -5,8 +5,6 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import { SearchBar } from '../../MainView/SearchBar';
 import { getSupplierFoodPage, getSuppliersPage, searchSuppliersPage } from '../../../apiServices/supplierApi';
 import { ItemsList } from './ItemsList';
@@ -137,6 +135,19 @@ export const AddProposalStepper = ({ onFinish }) => {
     }
   }
 
+  const isNextStepEnabled = (step) => {
+    switch (step) {
+      case 0:
+        return !!selectedSupplier;
+      case 1:
+        return !!selectedFood;
+      case 2:
+        return amount > 0;
+      default:
+        return true;
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -164,6 +175,7 @@ export const AddProposalStepper = ({ onFinish }) => {
                       color="primary"
                       onClick={handleNext}
                       className={classes.button}
+                      disabled={!isNextStepEnabled(index)}
                     >
                       { activeStep === steps.length - 1 ? 'Potwierdź' : 'Dalej' }
                     </Button>

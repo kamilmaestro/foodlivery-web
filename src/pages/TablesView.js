@@ -12,9 +12,17 @@ import { ProposalsList } from '../components/TablesView/ProposalsList';
 import { JoinTableModal } from '../components/TablesView/JoinTableModal';
 import { InvitationPopover } from '../components/TablesView/InvitationPopover';
 import { MembersDrawer } from '../components/TablesView/MembersDrawer';
-import { AddProposalFAB } from '../components/TablesView/AddProposalFAB';
 import { AddProposalModal } from '../components/TablesView/AddProposalModal/AddProposalModal';
-import { getProposalsPage, createNewProposal } from '../apiServices/orderApi';
+import { getProposalsPage, createNewProposal, becomePurchaserForSupplier } from '../apiServices/orderApi';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
+import './scrollable.css';
+import { AddFAB } from '../components/AddFAB/AddFAB';
+import { OrdersList } from '../components/TablesView/OrdersList/OrdersList';
+
+const PROPOSALS_TAB = '1';
+const ORDERS_TAB = '2';
 
 export const TablesView = () => {
 
@@ -28,8 +36,14 @@ export const TablesView = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isJoinTableModalOpen, setIsJoinTableModalOpen] = useState(false);
   const [isAddProposalModalOpen, setIsAddProposalModalOpen] = useState(false);
+  const [isAddOrderModalOpen, setIsAddOrderModalOpen] = useState(false);
   const [isInviatationPopoverOpen, setIsInviatationPopoverOpen] = useState(false);
   const [isMembersDrawerOpen, setIsMembersDrawerOpen] = useState(false);
+  const [tab, setTab] = useState(PROPOSALS_TAB);
+
+  const handleTabChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
   useEffect(() => {
     getTables();
@@ -39,7 +53,6 @@ export const TablesView = () => {
     getTableMembers(currentTable);
   }, [currentTable])
 
-  
   useEffect(() => {
     if (currentTable) {
       getProposals(currentTable);
@@ -72,7 +85,6 @@ export const TablesView = () => {
   const getProposals = (tableId) => {
     getProposalsPage(tableId)
       .then((response) => {
-        console.log('prop ', response.data.content)
         setProposals(response.data.content);
       }).catch(error => {
         console.log(error)
@@ -101,6 +113,14 @@ export const TablesView = () => {
 
   const handleAddProposalModalClose = () => {
     setIsAddProposalModalOpen(false);
+  };
+
+  const handleAddOrderModalOpen = () => {
+    setIsAddOrderModalOpen(true);
+  };
+
+  const handleAddOrderModalClose = () => {
+    setIsAddOrderModalOpen(false);
   };
 
   const handleDrawerOpen = () => {
@@ -150,6 +170,15 @@ export const TablesView = () => {
     setIsJoinTableModalOpen(false);
   }
 
+  const becomePurchaser = (supplierId) => {
+    becomePurchaserForSupplier(supplierId, currentTable)
+      .then((response) => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      })
+  }
+
   return (
     <div style={{display: "flex", height: '100vh'}} >
       <CssBaseline />
@@ -176,8 +205,29 @@ export const TablesView = () => {
             onAddClick={handleJoinTableModalOpen} 
             currentTableId={currentTable} 
           />
-          <ProposalsList tableId={currentTable} proposals={proposals} members={members} />
-          <AddProposalFAB onClick={handleAddProposalModalOpen} />
+          <div className={classes.right}>
+            <div style={{marginLeft: '10%', marginRight: '18%'}}>
+              <AppBar position="static" >
+                <Tabs value={tab} onChange={handleTabChange} centered>
+                  <Tab value={PROPOSALS_TAB} label='Propozycje'></Tab>
+                  <Tab value={ORDERS_TAB} label='Zamówienia'></Tab>
+                </Tabs>
+              </AppBar>
+              <div className="scrollbar" style={{marginTop: 10}}>
+                <div style={{paddingLeft: 16, marginRight: 10}} >
+                  {
+                    tab === PROPOSALS_TAB ?
+                      <ProposalsList proposals={proposals} members={members} onClick={becomePurchaser} />
+                      : <OrdersList tableId={currentTable} members={members} />
+                  }
+                </div>
+              </div>  
+            </div>
+            <AddFAB 
+              onClick={tab === PROPOSALS_TAB ? handleAddProposalModalOpen : handleAddOrderModalOpen} 
+              tooltip={tab === PROPOSALS_TAB ? 'Dodaj nową propozycję przy stoliku' : 'Dodaj nowe zamówienie przy stoliku'}  
+            />
+          </div>
         </div>
       </main>
     </div>
@@ -194,5 +244,13 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1
+  },
+  right: {
+    width: '100%'
+  },
+  list: {
+    height:'86vh',
+    overflowX: 'auto',
+    overflow: 'scroll'
   }
 }));

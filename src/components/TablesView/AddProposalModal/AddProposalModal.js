@@ -34,8 +34,7 @@ export const AddProposalModal = ({ isOpen, handleClose, onAddProposal, tableId }
   }
 
   const addProposal = () => {
-    const newProposal = {};
-    onAddProposal(newProposal);
+    onAddProposal(proposal);
     handleClose();
     setIsFinished(false);
   }
