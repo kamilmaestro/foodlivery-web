@@ -8,8 +8,7 @@ import Button from '@material-ui/core/Button';
 import { SearchBar } from '../../MainView/SearchBar';
 import { getSupplierFoodPage, getSuppliersPage, searchSuppliersPage } from '../../../apiServices/supplierApi';
 import { ItemsList } from './ItemsList';
-import TextField from '@material-ui/core/TextField';
-import { Tooltip } from '@material-ui/core';
+import { SuppliersBasicList } from './SuppliersBasicList';
 
 export const AddProposalStepper = ({ onFinish }) => {
 
@@ -19,21 +18,9 @@ export const AddProposalStepper = ({ onFinish }) => {
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [food, setFood] = useState([]);
-  const [selectedFood, setSelectedFood] = useState(null);
-  const [amount, setAmount] = useState(null);
-  const steps = [
-    { 
-      label: 'Wybierz dostawcę', 
-      tooltip: 'Zaproponujesz innym zamawianie od tego dostawcy' 
-    }, 
-    { 
-      label: `Wybierz pozycję z menu: ${selectedSupplier ? selectedSupplier.name : ''}`, 
-      tooltip: 'Wybierz jedną pozycję, którą zachęcisz innych do zakupu u tego dostawcy' 
-    }, 
-    { 
-      label: `Podaj ilość dla: ${selectedFood ? selectedFood.name : ''}`, 
-      tooltip: 'Ilość zostanie rozważona w przypadku przekształcenia propozycji w zamówienie' 
-    }
+  const steps = [ 
+    'Wybierz dostawcę', 
+    `Wybierz pozycję z menu: ${selectedSupplier ? selectedSupplier.name : ''}` 
   ];
 
   useEffect(() => {
@@ -42,13 +29,13 @@ export const AddProposalStepper = ({ onFinish }) => {
     } else {
       getSuppliers();
     }
-  }, [search])
+  }, [search]);
 
   useEffect(() => {
     if (selectedSupplier) {
       getFood(selectedSupplier.id);
     }
-  }, [selectedSupplier])
+  }, [selectedSupplier]);
 
   const searchSuppliers = (search) => {
     searchSuppliersPage(search)
@@ -71,7 +58,15 @@ export const AddProposalStepper = ({ onFinish }) => {
   const getFood = (supplierId) => {
     getSupplierFoodPage(supplierId)
       .then((response) => {
-        setFood(response.data.content);
+        const food = response.data.content.map(item => { 
+          return {
+            id: item.id,
+            name: item.name,
+            amount: 1,
+            isSelected: false
+          }
+        });
+        setFood(food);
       }).catch(error => {
         console.log(error)
       })
@@ -80,7 +75,15 @@ export const AddProposalStepper = ({ onFinish }) => {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if (activeStep === steps.length - 1) {
-      onFinish(selectedSupplier.id, selectedFood.id, amount);
+      const proposalFood = food
+        .filter(f => f.isSelected)
+        .map(f => {
+          return {
+            foodId: f.id,
+            amountOfFood: f.amount
+          }
+        });
+      onFinish(selectedSupplier.id, proposalFood);
     }
   };
 
@@ -96,12 +99,18 @@ export const AddProposalStepper = ({ onFinish }) => {
     setSelectedSupplier(supplier);
   };
 
-  const handleFoodClick = (food) => {
-    setSelectedFood(food);
+  const handleFoodClick = (id) => {
+    const updatedFood = food.map(f => f.id === id ? { ...f, isSelected: !f.isSelected } : f );
+    setFood(updatedFood);
   };
 
-  const handleAmountChanged = (event) => {
-    setAmount(event.target.value);
+  const handleAmountChanged = (id, amount) => {
+    const updatedFood = food.map(f => 
+      f.id === id ? 
+        { ...f, amount: amount, isSelected: true } 
+        : f 
+    );
+    setFood(updatedFood);
   }
 
   const getStepContent = (step) => {
@@ -110,25 +119,14 @@ export const AddProposalStepper = ({ onFinish }) => {
         return (
           <div >
             <SearchBar text={search} placeholder={'Szukaj dostawcy'} onChange={updateSearch} />
-            <ItemsList items={suppliers} selectedId={selectedSupplier ? selectedSupplier.id : null} onClick={handleSupplierClick} />
+            <SuppliersBasicList items={suppliers} selectedId={selectedSupplier ? selectedSupplier.id : null} onClick={handleSupplierClick} />
           </div>
         );
       case 1:
         return (
           <div >
-            <ItemsList items={food} selectedId={selectedFood ? selectedFood.id : null} onClick={handleFoodClick} />
+            <ItemsList items={food} onClick={handleFoodClick} handleAmountChanged={handleAmountChanged} />
           </div>
-        );
-      case 2:
-        return (
-          <TextField
-            margin="dense"
-            label="Ilość"
-            fullWidth
-            type="number"
-            onChange={handleAmountChanged}
-            style={{marginRight: 50}}
-          />
         );
       default:
         return 'Unknown step';
@@ -140,9 +138,7 @@ export const AddProposalStepper = ({ onFinish }) => {
       case 0:
         return !!selectedSupplier;
       case 1:
-        return !!selectedFood;
-      case 2:
-        return amount > 0;
+        return food.filter(f => f.isSelected).length > 0;
       default:
         return true;
     }
@@ -154,9 +150,7 @@ export const AddProposalStepper = ({ onFinish }) => {
         {
           steps.map((step, index) => (
             <Step key={index}>
-              <Tooltip title={step.tooltip}>
-                <StepLabel>{step.label}</StepLabel>
-              </Tooltip>
+              <StepLabel>{step}</StepLabel>
               <StepContent>
                 {
                   getStepContent(index)

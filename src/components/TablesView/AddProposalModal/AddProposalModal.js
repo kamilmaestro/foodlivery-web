@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { createNewTable } from '../../../apiServices/tablesApi';
-import { SearchBar } from '../../MainView/SearchBar';
 import { AddProposalStepper } from './AddProposalStepper';
 
 export const AddProposalModal = ({ isOpen, handleClose, onAddProposal, tableId }) => {
@@ -17,13 +14,12 @@ export const AddProposalModal = ({ isOpen, handleClose, onAddProposal, tableId }
   const [isFinished, setIsFinished] = useState(false);
   const [proposal, setProposal] = useState({});
 
-  const handleFinish = (supplierId, foodId, amount) => {
+  const handleFinish = (supplierId, food) => {
     setIsFinished(true);
     const proposal = {
       supplierId: supplierId,
-      foodId: foodId,
-      amountOfFood: amount,
-      channelId: tableId
+      channelId: tableId,
+      food: food
     };
     setProposal(proposal);
   }
@@ -66,8 +62,10 @@ export const AddProposalModal = ({ isOpen, handleClose, onAddProposal, tableId }
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   dialogPaper: {
+    minWidth: '100vh',
+    maxWidth: '100vh',
     minHeight: '90vh',
     maxHeight: '90vh',
   },

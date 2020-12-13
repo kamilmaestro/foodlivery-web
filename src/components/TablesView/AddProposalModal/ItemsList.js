@@ -4,21 +4,35 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import TextField from '@material-ui/core/TextField';
 
-export const ItemsList = ({ items, selectedId, onClick }) => {
+export const ItemsList = ({ items, onClick, handleAmountChanged }) => {
 
   const classes = useStyles();
+
+  const onAmountChange = (item, event) => {
+    const amount = (event.target.value && event.target.value > 0) ? 
+      parseInt(event.target.value, 10) 
+      : 1;
+    handleAmountChanged(item.id, amount);
+  }
 
   return (
     <div>
       <List component="nav" className={classes.root}>
         {
           items.map((item, index) => (
-            <ListItem key={index} button selected={item.id === selectedId}>
-              <ListItemText id={item.id} primary={<Typography> { item.name } </Typography>} onClick={() => onClick(item)} />
+            <ListItem key={index} button selected={item.isSelected}>
+              <ListItemText id={item.id} primary={<Typography> { item.name } </Typography>} onClick={() => onClick(item.id)} />
+              <TextField
+                margin="dense"
+                label="Ilość"
+                inputProps={{ min: 1, max: 99}}
+                type="number"
+                onChange={(e) => onAmountChange(item, e)}
+                style={{marginRight: 10, minWidth: 50}}
+                value={item.amount ? item.amount : 1}
+              />
             </ListItem>
           ))
         }
