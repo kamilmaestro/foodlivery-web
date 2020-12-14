@@ -117,7 +117,7 @@ export const AddProposalStepper = ({ onFinish }) => {
     switch (step) {
       case 0:
         return (
-          <div >
+          <div>
             <SearchBar text={search} placeholder={'Szukaj dostawcy'} onChange={updateSearch} />
             <SuppliersBasicList items={suppliers} selectedId={selectedSupplier ? selectedSupplier.id : null} onClick={handleSupplierClick} />
           </div>

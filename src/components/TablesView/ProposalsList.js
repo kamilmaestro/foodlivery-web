@@ -52,7 +52,8 @@ export const ProposalsList = ({ proposals, members, onClick }) => {
   }
 
   const getFood = (proposals) => {
-    const foodIds = proposals.map(proposal => proposal.foodId)
+    const proposalFood = proposals.map(proposal => proposal.food).flat();
+    const foodIds = proposalFood.map(food => food.foodId);
     getFoodByIds(foodIds)
       .then((response) => {
         setFood(response.data);
@@ -61,8 +62,8 @@ export const ProposalsList = ({ proposals, members, onClick }) => {
       })
   }
 
-  const onPreviewClick = (supplierId, supplierName) => {
-    //history.push(supplierUrl(supplierId, supplierName));
+  const goToSupplier = (supplierId, supplierName) => {
+    history.push(supplierUrl(supplierId, supplierName));
   }
 
   const getMemberName = (proposal) => {
@@ -70,6 +71,11 @@ export const ProposalsList = ({ proposals, members, onClick }) => {
     return member ?
       member.memberName
       : null;
+  }
+
+  const getProposalFood = (proposal) => {
+    const foodIds = proposal.food.map(food => food.foodId)
+    return food.filter(food => foodIds.includes(food.id));
   }
 
   return (
@@ -80,9 +86,10 @@ export const ProposalsList = ({ proposals, members, onClick }) => {
             <ProposalPreview 
               proposal={proposal}
               supplier={suppliers.find(supplier => supplier.id === proposal.supplierId)}
-              food={food.find(food => food.id === proposal.foodId)}
+              food={getProposalFood(proposal)}
               memberName={getMemberName(proposal)}
-              onClickButton={onClick} 
+              onClickButton={onClick}
+              onClickFood={goToSupplier} 
               key={index} 
             />
           ))

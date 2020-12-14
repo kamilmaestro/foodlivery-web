@@ -15,38 +15,41 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { getImageUrl } from '../../utils/imagesGetter';
+import { getImageUrl } from '../../../utils/imagesGetter';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import Button from '@material-ui/core/Button';
+import { ProposalHeader } from '../ProposalHeader';
+import { FoodPreview } from './FoodPreview';
+import List from '@material-ui/core/List';
 
-export const ProposalHeader = ({ supplierName }) => {
+export const ProposalFoodPreviewList = ({ food, onFoodClick }) => {
 
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <Typography variant="h6" className={classes.text} style={{marginRight: 15}}>
-          dla:
-        </Typography>
-        <Typography variant="h5" className={classes.text}>
-          { supplierName }
-        </Typography>
-      </div>
+    <div>
+      {
+        food.length > 0 &&
+          <div>
+            <List component="nav">
+              {
+                food.map((food, index) => (
+                  <FoodPreview 
+                    food={food}
+                    onClick={onFoodClick}   
+                    key={index} 
+                  />
+                ))
+              }
+            </List>
+          </div>
+      }
     </div>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
   text: {
     color: theme.palette.text.primary,
     fontWeight: 100

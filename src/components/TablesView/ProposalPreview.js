@@ -7,21 +7,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { getImageUrl } from '../../utils/imagesGetter';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import RestaurantIcon from '@material-ui/icons/Restaurant';
 import Button from '@material-ui/core/Button';
 import { ProposalHeader } from './ProposalHeader';
+import { ProposalFoodPreviewList } from './ProposalFoodPreviewList/ProposalFoodPreviewList';
 
-export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickButton }) => {
+export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickButton, onClickFood }) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -37,22 +32,43 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickB
   }
   
   const calculateFoodImageHeight = () => {
-    if (food && food.imageId) {
-      return expanded ? 
-        250 : 
-        250;
-    } else {
-      return 0;
+    return getImage() ?
+      250
+      : 0;
+  }
+
+  const getImage = () => {
+    const foodWithImage = food.find(food => food.imageId !== null);
+    return foodWithImage ?
+      getImageUrl(foodWithImage.imageId) 
+      : null;
+  }
+
+  const getFoodForPreviewList = () => {
+    return proposal.food.map(food => createFoodPreview(food));
+  }
+
+  const createFoodPreview = (value) => {
+    const foodData = food.find(food => food.id === value.foodId)
+    return {
+      id: value.foodId,
+      amount: value.amountOfFood,
+      name: foodData ? foodData.name : null,
+      price: foodData ? foodData.price : 0
     }
+  }
+
+  const goToSupplier = () => {
+    onClickFood(supplier.id, supplier.name);
   }
 
   return (
     <div className={classes.root}>
       <Card>
-      <CardHeader title={ <ProposalHeader foodName={food ? food.name : null} supplierName={supplier ? supplier.name : null} /> } />
+      <CardHeader title={ <ProposalHeader supplierName={supplier ? supplier.name : null} /> } />
       <CardMedia
         style={{height: calculateFoodImageHeight()}}
-        image={food ? getImageUrl(food.imageId) : null}
+        image={getImage()}
       />
       <CardActions disableSpacing>
         <Button  color="primary" variant="contained" onClick={() => onClickButton(supplier.id)} >
@@ -68,15 +84,18 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickB
       </CardActions>
       <Collapse in={expanded} timeout={500} unmountOnExit>
         <CardContent>
-          <Typography variant="h6" className={classes.text}>
-            { `Wygasa: ${getDate(proposal.expirationDate)}` }
-          </Typography>
-          {
-            memberName &&
-              <Typography variant="h6" className={classes.text}>
-                { `Dodane przez: ${memberName}` }
-              </Typography>
-          }
+          <div className={classes.content}>
+            <Typography variant="h6" className={classes.text}>
+              { `Wygasa: ${getDate(proposal.expirationDate)}` }
+            </Typography>
+            {
+              memberName &&
+                <Typography variant="h6" className={classes.text}>
+                  { `Dodane przez: ${memberName}` }
+                </Typography>
+            }
+          </div>
+          <ProposalFoodPreviewList food={getFoodForPreviewList()} onFoodClick={goToSupplier} />
         </CardContent>
       </Collapse>
     </Card>
@@ -108,5 +127,10 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: theme.palette.text.primary,
     fontWeight: 100
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 }));
