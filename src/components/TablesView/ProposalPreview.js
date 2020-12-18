@@ -51,7 +51,6 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickB
   const createFoodPreview = (value) => {
     const foodData = food.find(food => food.id === value.foodId)
     return {
-      id: value.foodId,
       amount: value.amountOfFood,
       name: foodData ? foodData.name : null,
       price: foodData ? foodData.price : 0

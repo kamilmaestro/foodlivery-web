@@ -4,35 +4,14 @@ import { AddSupplierModal } from '../../components/SuppliersView/AddSupplierModa
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import { SupplierPreview } from '../../components/SuppliersView/SupplierPreview';
-import { connect } from 'react-redux';
-import { useHistory } from "react-router-dom";
 import { supplierUrl } from '../../utils/urlProvider';
 import { getProposalsPage } from '../../apiServices/orderApi';
 import { ProposalPreview } from './ProposalPreview';
 
-export const ProposalsList = ({ proposals, members, onClick }) => {
+export const ProposalsList = ({ proposals, members, onClick, history }) => {
 
-  const history = useHistory();
-  //const [proposals, setProposals] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [food, setFood] = useState([]);
-
-  // useEffect(() => {
-  //   if (tableId) {
-  //     getProposals(tableId);
-  //   }
-  // }, [tableId])
-
-  // const getProposals = (tableId) => {
-  //   getProposalsPage(tableId)
-  //     .then((response) => {
-  //       setProposals(response.data.content);
-  //       getSuppliers(response.data.content);
-  //       getFood(response.data.content);
-  //     }).catch(error => {
-  //       console.log(error)
-  //     })
-  // }
 
   useEffect(() => {
     if (proposals) {

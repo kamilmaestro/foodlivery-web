@@ -20,6 +20,7 @@ import AppBar from '@material-ui/core/AppBar';
 import './scrollable.css';
 import { AddFAB } from '../components/AddFAB/AddFAB';
 import { OrdersList } from '../components/TablesView/OrdersList/OrdersList';
+import { useHistory } from "react-router-dom";
 
 const PROPOSALS_TAB = '1';
 const ORDERS_TAB = '2';
@@ -27,7 +28,7 @@ const ORDERS_TAB = '2';
 export const TablesView = () => {
 
   const classes = useStyles();
-  const match = useRouteMatch();
+  const history = useHistory();
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [tables, setTables] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
@@ -217,16 +218,19 @@ export const TablesView = () => {
                 <div style={{paddingLeft: 16, marginRight: 10}} >
                   {
                     tab === PROPOSALS_TAB ?
-                      <ProposalsList proposals={proposals} members={members} onClick={becomePurchaser} />
-                      : <OrdersList tableId={currentTable} members={members} />
+                      <ProposalsList proposals={proposals} members={members} onClick={becomePurchaser} history={history} />
+                      : <OrdersList tableId={currentTable} members={members} history={history} />
                   }
                 </div>
               </div>  
             </div>
-            <AddFAB 
-              onClick={tab === PROPOSALS_TAB ? handleAddProposalModalOpen : handleAddOrderModalOpen} 
-              tooltip={tab === PROPOSALS_TAB ? 'Dodaj nową propozycję przy stoliku' : 'Dodaj nowe zamówienie przy stoliku'}  
-            />
+            {
+              tab === PROPOSALS_TAB &&
+                <AddFAB 
+                  onClick={handleAddProposalModalOpen} 
+                  tooltip={'Dodaj nową propozycję przy stoliku'}  
+                />
+            }
           </div>
         </div>
       </main>

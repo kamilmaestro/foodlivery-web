@@ -3,8 +3,8 @@ export const AUTH_FAILURE = 'AUTH_FAILURE';
 
 const initialState = {
   user: {
-    id: null,
-    userName: null
+    userId: null,
+    username: null
   }
 };
 

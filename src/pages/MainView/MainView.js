@@ -29,7 +29,6 @@ const MainView = ({ contextReducer }) => {
   const [currentView, setCurrentView] = useState(getCurrentView());
 
   const renderCurrentView = () => {
-    console.log(contextReducer.user)
     switch (match.path) {
       case MY_ORDERS_VIEW_URL:
         return <MyOrdersView />;
