@@ -8,8 +8,14 @@ import {useEffect, useState} from "react";
 import {getUsersByIds} from "../../../apiServices/userApi";
 import {UserOrdersList} from "./UserOrders/UserOrdersList";
 import {Header} from "./Header/Header";
-import {getOrderWithUserOrders} from "../../../apiServices/orderApi";
+import {finalizeOrderById, finishOrderById, getOrderWithUserOrders} from "../../../apiServices/orderApi";
 import {supplierUrl} from "../../../utils/urlProvider";
+import {ACCEPTED_ORDER_STATUS, FINALIZED_ORDER_STATUS, FINISHED_ORDER_STATUS} from "../../../utils/constants";
+import Tooltip from "@material-ui/core/Tooltip";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 export const OrderView = ({ orderId, supplier, table, history }) => {
 
@@ -58,6 +64,44 @@ export const OrderView = ({ orderId, supplier, table, history }) => {
     history.push(supplierUrl(supplier.id, supplier.name));
   }
 
+  const finalizeOrder = () => {
+    finalizeOrderById(order.id)
+      .then((response) => {
+        setOrder(response.data);
+      }).catch(error => {
+        console.log(error)
+      });
+  }
+
+  const finishOrder = () => {
+    finishOrderById(order.id)
+      .then((response) => {
+        setOrder(response.data);
+      }).catch(error => {
+        console.log(error)
+      });
+  }
+
+  const getAction = (status) => {
+    switch (status) {
+      case ACCEPTED_ORDER_STATUS:
+        return (
+          <Button size="medium" color="primary" variant="contained" onClick={finalizeOrder} >
+            Finalizuj
+          </Button>
+        );
+      case FINALIZED_ORDER_STATUS:
+        return (
+          <Button size="medium" color="primary" variant="contained" onClick={finishOrder} >
+            Zakończ
+          </Button>
+        );
+      case FINISHED_ORDER_STATUS:
+      default:
+        return null;
+    }
+  }
+
   return (
     <div className={classes.root} >
       <Card >
@@ -73,11 +117,7 @@ export const OrderView = ({ orderId, supplier, table, history }) => {
           alt=''
         />
         <div className={classes.info}>
-          <CardActions className={classes.action}>
-            <Button size="medium" color="primary" variant="contained">
-              Zamów jedzenie
-            </Button>
-          </CardActions>
+          { getAction(order ? order.status : null) }
         </div>
       </Card>
       <UserOrdersList userOrders={order ? order.userOrders : []} users={users} onFoodClick={goToSupplier} />
@@ -102,9 +142,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     marginLeft: '3%',
-    marginRight: '3%'
-  },
-  action: {
-    marginRight: '2%'
+    marginRight: '3%',
+    marginBottom: '1.5%'
   }
 }));

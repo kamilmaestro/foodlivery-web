@@ -40,3 +40,15 @@ export const getOrderWithUserOrders = (orderId) => {
 
   return axios.get(url);
 }
+
+export const finalizeOrderById = (orderId) => {
+  const url = `${SERVER_URL}/order/${orderId}/finalize`;
+
+  return axios.post(url);
+}
+
+export const finishOrderById = (orderId) => {
+  const url = `${SERVER_URL}/order/${orderId}/finish`;
+
+  return axios.post(url);
+}
