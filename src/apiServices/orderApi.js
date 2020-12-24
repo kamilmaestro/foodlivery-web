@@ -28,3 +28,15 @@ export const becomePurchaserForSupplier = (supplierId, tableId) => {
 
   return axios.post(url, purchaser);
 }
+
+export const getUserOrdersPage = () => {
+  const url = `${SERVER_URL}/order/user`;
+
+  return axios.get(url);
+}
+
+export const getOrderWithUserOrders = (orderId) => {
+  const url = `${SERVER_URL}/order/${orderId}`;
+
+  return axios.get(url);
+}

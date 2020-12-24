@@ -12,7 +12,7 @@ export const FoodPreview = ({ food, onClick }) => {
   const classes = useStyles();
 
   return (
-      <div className={clsx("box", classes.container)} style={{border: 1, marginTop: 10}} onClick={onClick}>
+      <div className={clsx("box", classes.container)} style={{border: 1, marginTop: 8}} onClick={onClick}>
         <div className={classes.left}>
           <Typography variant="h6" style={{paddingLeft: 15}}>
             { `${food.name}\xa0\xa0\xa0x ${food.amount}` }
@@ -30,7 +30,6 @@ export const FoodPreview = ({ food, onClick }) => {
         </div>
         {
           food.userName &&
-            <Tooltip title={`Łączny koszt. Cena za jedną pozycję: ${food.price} zł`} placement={'bottom-start'} >
               <div style={{marginRight: 15}}>
                 <IconButton size={'small'} style={{justifyContent: 'flex-start', marginLeft: 12}} disabled>
                   <PersonIcon style ={{marginRight: 8}}/>
@@ -39,7 +38,6 @@ export const FoodPreview = ({ food, onClick }) => {
                   </div>
                 </IconButton>
               </div>
-            </Tooltip>
         }
       </div>
   );

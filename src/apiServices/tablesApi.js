@@ -40,3 +40,9 @@ export const getMembersList = (channelId) => {
 
   return axios.get(url);
 }
+
+export const getTablesByIdsPage = (ids) => {
+  const url = `${SERVER_URL}/channel/ids`;
+
+  return axios.post(url, ids);
+}

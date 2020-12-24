@@ -4,7 +4,6 @@ import { AUTH_HEADER } from './constants';
 const TOKEN_KEY = 'AuthToken';
 
 export const setToken = (token) => {
-  //localStorage.removeItem(TOKEN_KEY);
   localStorage.setItem(TOKEN_KEY, token);
 }
 

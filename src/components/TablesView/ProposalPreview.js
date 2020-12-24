@@ -15,6 +15,7 @@ import { getImageUrl } from '../../utils/imagesGetter';
 import Button from '@material-ui/core/Button';
 import { ProposalHeader } from './ProposalHeader';
 import { ProposalFoodPreviewList } from './ProposalFoodPreviewList/ProposalFoodPreviewList';
+import {getDateTime} from "../../utils/dateFormatter";
 
 export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickButton, onClickFood }) => {
 
@@ -24,12 +25,6 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickB
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const getDate = (toFormat) => {
-    let date = new Date(toFormat);
-    date.setSeconds(0, 0);
-    return date.toISOString().replace(/T/, " ").replace(/:00.000Z/, "");
-  }
   
   const calculateFoodImageHeight = () => {
     return getImage() ?
@@ -85,7 +80,7 @@ export const ProposalPreview = ({ proposal, food, supplier, memberName, onClickB
         <CardContent>
           <div className={classes.content}>
             <Typography variant="h6" className={classes.text}>
-              { `Wygasa: ${getDate(proposal.expirationDate)}` }
+              { `Wygasa: ${getDateTime(proposal.expirationDate)}` }
             </Typography>
             {
               memberName &&

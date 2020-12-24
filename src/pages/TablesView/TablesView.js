@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouteMatch } from "react-router-dom";
-import { SUPPLIER_VIEW_URL, SUPPLIERS_VIEW_URL } from '../utils/urlProvider';
-import {MainViewDrawer} from '../components/MainView/Drawer';
+import { SUPPLIER_VIEW_URL, SUPPLIERS_VIEW_URL } from '../../utils/urlProvider';
+import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Header } from '../components/MainView/Header';
-import { TablesList } from '../components/TablesView/TablesList';
-import { getMembersList, getTablesPage, joinNewTable } from '../apiServices/tablesApi';
-import { AddTableModal } from '../components/TablesView/AddTableModal';
-import { ProposalsList } from '../components/TablesView/ProposalsList';
-import { JoinTableModal } from '../components/TablesView/JoinTableModal';
-import { InvitationPopover } from '../components/TablesView/InvitationPopover';
-import { MembersDrawer } from '../components/TablesView/MembersDrawer';
-import { AddProposalModal } from '../components/TablesView/AddProposalModal/AddProposalModal';
-import { getProposalsPage, createNewProposal, becomePurchaserForSupplier } from '../apiServices/orderApi';
+import { Header } from '../../components/MainView/Header';
+import { TablesList } from '../../components/TablesView/TablesList';
+import { getMembersList, getTablesPage, joinNewTable } from '../../apiServices/tablesApi';
+import { AddTableModal } from '../../components/TablesView/AddTableModal';
+import { ProposalsList } from '../../components/TablesView/ProposalsList';
+import { JoinTableModal } from '../../components/TablesView/JoinTableModal';
+import { InvitationPopover } from '../../components/TablesView/InvitationPopover';
+import { MembersDrawer } from '../../components/TablesView/MembersDrawer';
+import { AddProposalModal } from '../../components/TablesView/AddProposalModal/AddProposalModal';
+import { getProposalsPage, createNewProposal, becomePurchaserForSupplier } from '../../apiServices/orderApi';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
-import './scrollable.css';
-import { AddFAB } from '../components/AddFAB/AddFAB';
-import { OrdersList } from '../components/TablesView/OrdersList/OrdersList';
+import '../scrollable.css';
+import { AddFAB } from '../../components/AddFAB/AddFAB';
+import { OrdersList } from '../../components/TablesView/OrdersList/OrdersList';
 import { useHistory } from "react-router-dom";
 
 const PROPOSALS_TAB = '1';
@@ -133,7 +133,6 @@ export const TablesView = () => {
   };
 
   const onTableClick = (id) => {
-    console.log('tabe: ', id)
     setCurrentTable(id)
   }
 
@@ -210,8 +209,8 @@ export const TablesView = () => {
             <div style={{marginLeft: '10%', marginRight: '18%'}}>
               <AppBar position="static" >
                 <Tabs value={tab} onChange={handleTabChange} centered>
-                  <Tab value={PROPOSALS_TAB} label='Propozycje'></Tab>
-                  <Tab value={ORDERS_TAB} label='Zamówienia'></Tab>
+                  <Tab value={PROPOSALS_TAB} label='Propozycje'/>
+                  <Tab value={ORDERS_TAB} label='Zamówienia'/>
                 </Tabs>
               </AppBar>
               <div className="scrollbar" style={{marginTop: 10}}>
