@@ -11,13 +11,8 @@ import {Header} from "./Header/Header";
 import {finalizeOrderById, finishOrderById, getOrderWithUserOrders} from "../../../apiServices/orderApi";
 import {supplierUrl} from "../../../utils/urlProvider";
 import {ACCEPTED_ORDER_STATUS, FINALIZED_ORDER_STATUS, FINISHED_ORDER_STATUS} from "../../../utils/constants";
-import Tooltip from "@material-ui/core/Tooltip";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 
-export const OrderView = ({ orderId, supplier, table, history }) => {
+export const OrderView = ({ orderId, supplier, table, history, loggedInUserId }) => {
 
   const classes = useStyles();
   const [order, setOrder] = useState(null);
@@ -82,7 +77,26 @@ export const OrderView = ({ orderId, supplier, table, history }) => {
       });
   }
 
+  const canEdit = () => {
+    return order && order.purchaserId === loggedInUserId;
+  };
+
+  const canEditUserOrder = (userId) => {
+    if (order) {
+      return order.status !== FINISHED_ORDER_STATUS &&
+        (order.purchaserId === loggedInUserId || order.purchaserId === userId);
+    } else {
+      return false;
+    }
+  };
+
   const getAction = (status) => {
+    return canEdit() ?
+      createAction(status)
+      : null;
+  }
+
+  const createAction = (status) => {
     switch (status) {
       case ACCEPTED_ORDER_STATUS:
         return (
@@ -120,7 +134,12 @@ export const OrderView = ({ orderId, supplier, table, history }) => {
           { getAction(order ? order.status : null) }
         </div>
       </Card>
-      <UserOrdersList userOrders={order ? order.userOrders : []} users={users} onFoodClick={goToSupplier} />
+      <UserOrdersList
+        userOrders={order ? order.userOrders : []}
+        users={users}
+        onFoodClick={goToSupplier}
+        canEdit={canEditUserOrder}
+      />
     </div>
   );
 };

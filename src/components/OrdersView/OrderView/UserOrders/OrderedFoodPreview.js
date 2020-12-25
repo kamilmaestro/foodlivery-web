@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FoodPreview} from "../../../TablesView/ProposalFoodPreviewList/FoodPreview";
 
-export const OrderedFoodPreview = ({ food, onClick }) => {
+export const OrderedFoodPreview = ({ food, onClick, withDelete }) => {
 
   const foodValue = {
     amount: food.amountOfFood,
@@ -10,6 +10,6 @@ export const OrderedFoodPreview = ({ food, onClick }) => {
   };
 
   return (
-    <FoodPreview food={foodValue} onClick={onClick} />
+    <FoodPreview food={foodValue} onClick={onClick} withDelete={withDelete} />
   );
 };

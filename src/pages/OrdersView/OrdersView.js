@@ -3,23 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {MainViewDrawer} from '../../components/MainView/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Header } from '../../components/MainView/Header';
-import { useRouteMatch } from "react-router-dom";
-import { ITEMS } from '../../components/MainView/DrawerItemsCreator';
-import { MY_ORDERS_VIEW_URL, WALLET_VIEW_URL } from '../../utils/urlProvider';
-import { MyOrdersView } from '../../components/MyOrdersView/MyOrdersView';
-import { WalletView } from '../../components/WalletView/WalletView';
 import { connect } from 'react-redux';
-import {AddTableModal} from "../../components/TablesView/AddTableModal";
-import {JoinTableModal} from "../../components/TablesView/JoinTableModal";
-import {AddProposalModal} from "../../components/TablesView/AddProposalModal/AddProposalModal";
-import {InvitationPopover} from "../../components/TablesView/InvitationPopover";
-import {MembersDrawer} from "../../components/TablesView/MembersDrawer";
-import {TablesList} from "../../components/TablesView/TablesList";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import {ProposalsList} from "../../components/TablesView/ProposalsList";
-import {AddFAB} from "../../components/AddFAB/AddFAB";
 import {getTablesByIdsPage, getTablesPage} from "../../apiServices/tablesApi";
 import {getUserOrdersPage} from "../../apiServices/orderApi";
 import {OrdersForUserList} from "../../components/OrdersView/OrdersList/OrdersForUserList";
@@ -27,7 +11,7 @@ import {getSupplierByIds} from "../../apiServices/supplierApi";
 import {OrderView} from "../../components/OrdersView/OrderView/OrderView";
 import { useHistory } from "react-router-dom";
 
-const OrdersView = () => {
+const OrdersView = ({ contextReducer }) => {
 
   const classes = useStyles();
   const history = useHistory();
@@ -127,6 +111,7 @@ const OrdersView = () => {
                 supplier={getSupplier(currentOrder)}
                 table={getTable(currentOrder)}
                 history={history}
+                loggedInUserId={contextReducer.user.userId}
               />
             </div>
           </div>
@@ -135,7 +120,11 @@ const OrdersView = () => {
   );
 };
 
-export default OrdersView;
+const mapStateToProps = ({ contextReducer }) => {
+  return { contextReducer };
+};
+
+export default connect(mapStateToProps)(OrdersView);
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

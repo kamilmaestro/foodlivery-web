@@ -7,10 +7,17 @@ import {getDateTime} from "../../../../utils/dateFormatter";
 import CardHeader from "@material-ui/core/CardHeader";
 import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {useState} from "react";
 
-export const Header = ({ userName, createdAt, expanded, handleExpandClick }) => {
+export const Header = ({ userName, createdAt, expanded, handleExpandClick, withDelete }) => {
 
   const classes = useStyles();
+  const [hovered, setHovered] = useState(false);
+
+  const hasDelete = () => {
+    return hovered && withDelete;
+  }
 
   return (
     <CardHeader
@@ -31,15 +38,26 @@ export const Header = ({ userName, createdAt, expanded, handleExpandClick }) => 
         </IconButton>
       }
       action={
-        <IconButton
-          className={clsx(classes.expand, { [classes.expandOpen]: expanded })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          style={{marginTop: 12}}
-        >
-          <ExpandMoreIcon className={classes.mainColor}/>
-        </IconButton>
+        <div className={classes.actions}>
+          {
+            hasDelete() &&
+              <IconButton
+                onClick={handleExpandClick}
+                style={{marginRight: 12}}
+              >
+                <DeleteIcon className={classes.mainColor}/>
+              </IconButton>
+          }
+          <IconButton
+            className={clsx(classes.expand, { [classes.expandOpen]: expanded })}
+            onClick={handleExpandClick}
+          >
+            <ExpandMoreIcon className={classes.mainColor}/>
+          </IconButton>
+        </div>
       }
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     />
   );
 };
@@ -53,5 +71,19 @@ const useStyles = makeStyles((theme) => ({
   },
   mainColor: {
     color: theme.palette.primary.main
+  },
+  actions: {
+    marginTop: 12,
+    marginRight: 12
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
   }
 }));

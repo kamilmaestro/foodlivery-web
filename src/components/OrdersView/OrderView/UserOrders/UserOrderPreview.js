@@ -4,14 +4,9 @@ import {Header} from "./Header";
 import {makeStyles} from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
 import {useState} from "react";
-import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import clsx from "clsx";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {OrderedFoodList} from "./OrderedFoodList";
 
-export const UserOrderPreview = ({ userOrder, user, onFoodClick }) => {
+export const UserOrderPreview = ({ userOrder, user, onFoodClick, canEdit }) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -27,10 +22,15 @@ export const UserOrderPreview = ({ userOrder, user, onFoodClick }) => {
         createdAt={userOrder.createdAt}
         expanded={expanded}
         handleExpandClick={handleExpandClick}
+        withDelete={canEdit(userOrder.orderedFor)}
       />
       <Collapse in={expanded} timeout={500} unmountOnExit>
         <div style={{marginLeft: 28, marginRight: 28}} >
-          <OrderedFoodList orderedFood={userOrder.orderedFood} onFoodClick={onFoodClick} />
+          <OrderedFoodList
+            orderedFood={userOrder.orderedFood}
+            onFoodClick={onFoodClick}
+            canEdit={canEdit(userOrder.orderedFor)}
+          />
         </div>
       </Collapse>
     </Card>
