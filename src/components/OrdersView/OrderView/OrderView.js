@@ -81,10 +81,10 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
     return order && order.purchaserId === loggedInUserId;
   };
 
-  const canEditUserOrder = (userId) => {
+  const canEditUserOrder = (orderedFor) => {
     if (order) {
       return order.status !== FINISHED_ORDER_STATUS &&
-        (order.purchaserId === loggedInUserId || order.purchaserId === userId);
+        (order.purchaserId === loggedInUserId || orderedFor === loggedInUserId);
     } else {
       return false;
     }

@@ -43,8 +43,5 @@ const useStyles = makeStyles((theme) => ({
   },
   mainColor: {
     color: theme.palette.primary.main
-  },
-  actions: {
-
   }
 }));
