@@ -6,7 +6,7 @@ import Collapse from "@material-ui/core/Collapse";
 import {useState} from "react";
 import {OrderedFoodList} from "./OrderedFoodList";
 
-export const UserOrderPreview = ({ userOrder, user, onFoodClick, canEdit }) => {
+export const UserOrderPreview = ({ userOrder, user, onFoodClick, canEdit, canRemove, onClickEdit, onClickRemove }) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -22,7 +22,9 @@ export const UserOrderPreview = ({ userOrder, user, onFoodClick, canEdit }) => {
         createdAt={userOrder.createdAt}
         expanded={expanded}
         handleExpandClick={handleExpandClick}
-        withDelete={canEdit(userOrder.orderedFor)}
+        withEdit={canEdit()}
+        withDelete={canRemove(userOrder.orderedFor)}
+        onClickEdit={onClickEdit}
       />
       <Collapse in={expanded} timeout={500} unmountOnExit>
         <div style={{marginLeft: 28, marginRight: 28}} >

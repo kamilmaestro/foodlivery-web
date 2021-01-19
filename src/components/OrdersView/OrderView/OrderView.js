@@ -8,15 +8,18 @@ import {useEffect, useState} from "react";
 import {getUsersByIds} from "../../../apiServices/userApi";
 import {UserOrdersList} from "./UserOrders/UserOrdersList";
 import {Header} from "./Header/Header";
-import {finalizeOrderById, finishOrderById, getOrderWithUserOrders} from "../../../apiServices/orderApi";
+import {editUserOrder, finalizeOrderById, finishOrderById, getOrderWithUserOrders} from "../../../apiServices/orderApi";
 import {supplierUrl} from "../../../utils/urlProvider";
 import {ACCEPTED_ORDER_STATUS, FINALIZED_ORDER_STATUS, FINISHED_ORDER_STATUS} from "../../../utils/constants";
+import {UserOrderEditModal} from "./UserOrderEditModal/UserOrderEditModal";
 
 export const OrderView = ({ orderId, supplier, table, history, loggedInUserId }) => {
 
   const classes = useStyles();
   const [order, setOrder] = useState(null);
   const [users, setUsers] = useState([]);
+  const [isOpenEditUserOrderModal, setIsOpenEditUserOrderModal] = useState(false);
+  const [editedUserOrder, setEditedUserOrder] = useState(null);
 
   useEffect(() => {
     if (orderId) {
@@ -81,7 +84,7 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
     return order && order.purchaserId === loggedInUserId;
   };
 
-  const canEditUserOrder = (orderedFor) => {
+  const canRemoveUserOrder = (orderedFor) => {
     if (order) {
       return order.status !== FINISHED_ORDER_STATUS &&
         (order.purchaserId === loggedInUserId || orderedFor === loggedInUserId);
@@ -89,6 +92,38 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
       return false;
     }
   };
+
+  const handleOpenEditUserOrderModal = (userOrder) => {
+    setEditedUserOrder(userOrder);
+    setIsOpenEditUserOrderModal(true);
+  }
+
+  const handleCloseEditUserOrderModal = () => {
+    setIsOpenEditUserOrderModal(false);
+    setEditedUserOrder(null);
+  }
+
+  const canEditUserOrder = () => {
+    if (order) {
+      return order.status === FINALIZED_ORDER_STATUS && order.purchaserId === loggedInUserId;
+    } else {
+      return false;
+    }
+  };
+
+  const onEditUserOrder = (userOrderId, editedFood) => {
+    editUserOrder(order.id, userOrderId, editedFood)
+      .then(() => {
+        getOrder(orderId);
+      }).catch(error => {
+        console.log(error)
+      });
+    handleCloseEditUserOrderModal();
+  }
+
+  const onUserOrderRemove = () => {
+    console.log('remove');
+  }
 
   const getAction = (status) => {
     return canEdit() ?
@@ -139,7 +174,18 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
         users={users}
         onFoodClick={goToSupplier}
         canEdit={canEditUserOrder}
+        canRemove={canRemoveUserOrder}
+        onClickEdit={handleOpenEditUserOrderModal}
+        onClickRemove={onUserOrderRemove}
       />
+      <div style={{flexGrow: 1}}>
+        <UserOrderEditModal
+          isOpen={isOpenEditUserOrderModal}
+          userOrder={editedUserOrder}
+          onSubmit={onEditUserOrder}
+          onClose={handleCloseEditUserOrderModal}
+        />
+      </div>
     </div>
   );
 };

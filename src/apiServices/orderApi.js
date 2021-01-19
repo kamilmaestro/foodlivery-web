@@ -52,3 +52,12 @@ export const finishOrderById = (orderId) => {
 
   return axios.post(url);
 }
+
+export const editUserOrder = (orderId, userOrderId, editedFood) => {
+  const url = `${SERVER_URL}/order/${orderId}/user-order/${userOrderId}`;
+  const body = {
+    editedFood: editedFood
+  };
+
+  return axios.put(url, body);
+}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {List} from "@material-ui/core";
 import {UserOrderPreview} from "./UserOrderPreview";
 
-export const UserOrdersList = ({ userOrders, users, onFoodClick, canEdit }) => {
+export const UserOrdersList = ({ userOrders, users, onFoodClick, canEdit, canRemove, onClickEdit, onClickRemove }) => {
 
   const getUser = (userId) => {
     return users.find(user => user.userId === userId);
@@ -17,6 +17,9 @@ export const UserOrdersList = ({ userOrders, users, onFoodClick, canEdit }) => {
             user={getUser(userOrder.orderedFor)}
             onFoodClick={onFoodClick}
             canEdit={canEdit}
+            canRemove={canRemove}
+            onClickEdit={() => onClickEdit(userOrder)}
+            onClickRemove={onClickRemove}
             key={index}
           />
         ))

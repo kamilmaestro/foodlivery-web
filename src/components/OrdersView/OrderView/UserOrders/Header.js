@@ -9,14 +9,19 @@ import clsx from "clsx";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useState} from "react";
+import EditIcon from '@material-ui/icons/Edit';
 
-export const Header = ({ userName, createdAt, expanded, handleExpandClick, withDelete }) => {
+export const Header = ({ userName, createdAt, expanded, handleExpandClick, withDelete, withEdit, onClickEdit, onClickRemove }) => {
 
   const classes = useStyles();
   const [hovered, setHovered] = useState(false);
 
   const hasDelete = () => {
     return hovered && withDelete;
+  }
+
+  const hasEdit = () => {
+    return hovered && withEdit;
   }
 
   return (
@@ -46,6 +51,15 @@ export const Header = ({ userName, createdAt, expanded, handleExpandClick, withD
                 style={{marginRight: 12}}
               >
                 <DeleteIcon className={classes.mainColor}/>
+              </IconButton>
+          }
+          {
+            hasEdit() &&
+              <IconButton
+                onClick={onClickEdit}
+                style={{marginRight: 12}}
+              >
+                <EditIcon className={classes.mainColor}/>
               </IconButton>
           }
           <IconButton
