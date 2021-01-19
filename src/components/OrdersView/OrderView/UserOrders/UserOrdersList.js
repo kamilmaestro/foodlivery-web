@@ -19,7 +19,7 @@ export const UserOrdersList = ({ userOrders, users, onFoodClick, canEdit, canRem
             canEdit={canEdit}
             canRemove={canRemove}
             onClickEdit={() => onClickEdit(userOrder)}
-            onClickRemove={onClickRemove}
+            onClickRemove={() => onClickRemove(userOrder.id)}
             key={index}
           />
         ))

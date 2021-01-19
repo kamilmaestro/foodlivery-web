@@ -1,10 +1,16 @@
 import * as React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {ACCEPTED_ORDER_STATUS, FINALIZED_ORDER_STATUS, FINISHED_ORDER_STATUS} from "../../../../utils/constants";
+import {
+  ACCEPTED_ORDER_STATUS,
+  CANCELLED_ORDER_STATUS,
+  FINALIZED_ORDER_STATUS,
+  FINISHED_ORDER_STATUS
+} from "../../../../utils/constants";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CancelScheduleSendIcon from '@material-ui/icons/CancelScheduleSend';
 import Tooltip from "@material-ui/core/Tooltip";
 
 export const OrderStatus = ({ status }) => {
@@ -29,6 +35,18 @@ export const OrderStatus = ({ status }) => {
               <ChevronRightIcon color="disabled" fontSize="large" />
               <AssignmentTurnedInIcon color="disabled" fontSize="large" />
             </div>
+          </Tooltip>
+        );
+      case CANCELLED_ORDER_STATUS:
+        return (
+          <Tooltip
+            title={
+              <span className={classes.tooltip} >
+                  <p>Zamknięte</p><p>Kupujący zrezygnował z zamawiania</p>
+                </span>
+            }
+          >
+            <CancelScheduleSendIcon color="primary" fontSize="large" />
           </Tooltip>
         );
       case FINALIZED_ORDER_STATUS:

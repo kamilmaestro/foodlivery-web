@@ -47,7 +47,7 @@ export const Header = ({ userName, createdAt, expanded, handleExpandClick, withD
           {
             hasDelete() &&
               <IconButton
-                onClick={handleExpandClick}
+                onClick={onClickRemove}
                 style={{marginRight: 12}}
               >
                 <DeleteIcon className={classes.mainColor}/>

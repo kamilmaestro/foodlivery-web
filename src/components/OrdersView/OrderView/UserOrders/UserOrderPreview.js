@@ -25,6 +25,7 @@ export const UserOrderPreview = ({ userOrder, user, onFoodClick, canEdit, canRem
         withEdit={canEdit()}
         withDelete={canRemove(userOrder.orderedFor)}
         onClickEdit={onClickEdit}
+        onClickRemove={onClickRemove}
       />
       <Collapse in={expanded} timeout={500} unmountOnExit>
         <div style={{marginLeft: 28, marginRight: 28}} >

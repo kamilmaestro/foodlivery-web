@@ -61,3 +61,15 @@ export const editUserOrder = (orderId, userOrderId, editedFood) => {
 
   return axios.put(url, body);
 }
+
+export const removeUserOrder = (orderId, userOrderId) => {
+  const url = `${SERVER_URL}/order/${orderId}/user-order/${userOrderId}`;
+
+  return axios.delete(url);
+}
+
+export const resignFromPurchase = (orderId) => {
+  const url = `${SERVER_URL}/order/${orderId}`;
+
+  return axios.delete(url);
+}

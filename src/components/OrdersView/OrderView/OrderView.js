@@ -8,10 +8,17 @@ import {useEffect, useState} from "react";
 import {getUsersByIds} from "../../../apiServices/userApi";
 import {UserOrdersList} from "./UserOrders/UserOrdersList";
 import {Header} from "./Header/Header";
-import {editUserOrder, finalizeOrderById, finishOrderById, getOrderWithUserOrders} from "../../../apiServices/orderApi";
+import {
+  editUserOrder,
+  finalizeOrderById,
+  finishOrderById,
+  getOrderWithUserOrders,
+  removeUserOrder, resignFromPurchase
+} from "../../../apiServices/orderApi";
 import {supplierUrl} from "../../../utils/urlProvider";
 import {ACCEPTED_ORDER_STATUS, FINALIZED_ORDER_STATUS, FINISHED_ORDER_STATUS} from "../../../utils/constants";
 import {UserOrderEditModal} from "./UserOrderEditModal/UserOrderEditModal";
+import {SnackBar} from "./SnackBar";
 
 export const OrderView = ({ orderId, supplier, table, history, loggedInUserId }) => {
 
@@ -20,6 +27,7 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
   const [users, setUsers] = useState([]);
   const [isOpenEditUserOrderModal, setIsOpenEditUserOrderModal] = useState(false);
   const [editedUserOrder, setEditedUserOrder] = useState(null);
+  const [isOpenUserOrderSnackBar, setIsOpenUserOrderSnackBar] = useState(false);
 
   useEffect(() => {
     if (orderId) {
@@ -121,8 +129,34 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
     handleCloseEditUserOrderModal();
   }
 
-  const onUserOrderRemove = () => {
-    console.log('remove');
+  const onUserOrderRemove = (userOrderId) => {
+    removeUserOrder(order.id, userOrderId)
+      .then(() => {
+        getOrder(orderId);
+        handleOpenUserOrderSnackBar();
+      }).catch(error => {
+        console.log(error)
+      });
+  }
+
+  const handleOpenUserOrderSnackBar = () => {
+    setIsOpenUserOrderSnackBar(true);
+  };
+
+  const handleCloseUserOrderSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setIsOpenUserOrderSnackBar(false);
+  };
+
+  const onResign = () => {
+    resignFromPurchase(order.id)
+      .then(() => {
+        getOrder(orderId);
+      }).catch(error => {
+        console.log(error)
+      });
   }
 
   const getAction = (status) => {
@@ -135,15 +169,25 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
     switch (status) {
       case ACCEPTED_ORDER_STATUS:
         return (
-          <Button size="medium" color="primary" variant="contained" onClick={finalizeOrder} >
-            Finalizuj
-          </Button>
+          <div>
+            <Button size="medium" color="primary" variant="contained" onClick={finalizeOrder} className={classes.button} >
+              Finalizuj
+            </Button>
+            <Button size="medium" color="primary" variant="contained" onClick={onResign} >
+              Rezygnuj
+            </Button>
+          </div>
         );
       case FINALIZED_ORDER_STATUS:
         return (
-          <Button size="medium" color="primary" variant="contained" onClick={finishOrder} >
-            Zakończ
-          </Button>
+          <div>
+            <Button size="medium" color="primary" variant="contained" onClick={finishOrder} className={classes.button} >
+              Zakończ
+            </Button>
+            <Button size="medium" color="primary" variant="contained" onClick={onResign} >
+              Rezygnuj
+            </Button>
+          </div>
         );
       case FINISHED_ORDER_STATUS:
       default:
@@ -178,14 +222,13 @@ export const OrderView = ({ orderId, supplier, table, history, loggedInUserId })
         onClickEdit={handleOpenEditUserOrderModal}
         onClickRemove={onUserOrderRemove}
       />
-      <div style={{flexGrow: 1}}>
-        <UserOrderEditModal
-          isOpen={isOpenEditUserOrderModal}
-          userOrder={editedUserOrder}
-          onSubmit={onEditUserOrder}
-          onClose={handleCloseEditUserOrderModal}
-        />
-      </div>
+      <UserOrderEditModal
+        isOpen={isOpenEditUserOrderModal}
+        userOrder={editedUserOrder}
+        onSubmit={onEditUserOrder}
+        onClose={handleCloseEditUserOrderModal}
+      />
+      <SnackBar isOpen={isOpenUserOrderSnackBar} handleClose={handleCloseUserOrderSnackBar} />
     </div>
   );
 };
@@ -209,5 +252,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '3%',
     marginRight: '3%',
     marginBottom: '1.5%'
+  },
+  button: {
+    marginRight: 15
   }
 }));
