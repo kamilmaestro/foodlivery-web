@@ -14,7 +14,7 @@ export const ArchivalPayment = ({ payment, purchaser, payer }) => {
   };
 
   return (
-    <Card >
+    <Card style={{marginBottom: 10}} >
       <Header
         purchaserName={purchaser ? purchaser.username : ''}
         payerName={payer ? payer.username : ''}
