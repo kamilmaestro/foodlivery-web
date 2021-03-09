@@ -173,9 +173,9 @@ export const TablesView = () => {
   const becomePurchaser = (supplierId) => {
     becomePurchaserForSupplier(supplierId, currentTable)
       .then((response) => {
-        console.log(response)
+        getProposals(currentTable);
       }).catch(error => {
-        console.log(error)
+        console.log(error);
       })
   }
 
