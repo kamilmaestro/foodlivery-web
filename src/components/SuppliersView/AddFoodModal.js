@@ -29,7 +29,6 @@ export const AddFoodModal = ({ match, isOpen, handleOpen, handleClose }) => {
   }
 
   const onAddFoodToMenu = (e) => {
-    handleOpen();
     onClose();
     e.preventDefault();
     image ? 
@@ -56,6 +55,7 @@ export const AddFoodModal = ({ match, isOpen, handleOpen, handleClose }) => {
     addNewFood(food)
       .then((response) => {
         console.log(response.data);
+        handleOpen();
       }).catch(error => {
         console.log(error)
       })

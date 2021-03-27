@@ -13,7 +13,7 @@ export const SnackBar = ({ isOpen, handleClose }) => {
       autoHideDuration={6000}
       open={isOpen}
       onClose={handleClose}
-      message="User order is removed"
+      message="Zamówienie zostało usunięte"
       action={
           <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
             <CloseIcon fontSize="small" />
